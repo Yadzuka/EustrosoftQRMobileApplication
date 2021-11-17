@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.eustrosoft.androidqr.ScannerActivity">
+
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/barcode_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="0dp">
+
+    </com.journeyapps.barcodescanner.DecoratedBarcodeView>
+
+    <!--GridLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="-205dp"
+        android:layout_toLeftOf="@+id/centerHorizont"
+        android:columnCount="2"
+        android:orientation="vertical"
+        android:rowCount="2">
+
+        <Button
+            android:id="@+id/barcode_button"
+            android:layout_width="211dp"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:onClick="pause"
+            android:text="Пауза" />
+
+        <Button
+            android:layout_width="211dp"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:onClick="resume"
+            android:text="Продолжить" />
+
+        <CheckBox
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:id="@+id/bib_switcher"
+            android:text="Выключить вибрацию и звук"/>
+    </GridLayout-->
+
+    <View
+        android:id="@+id/centerHorizont"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
