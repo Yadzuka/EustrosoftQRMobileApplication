@@ -131,9 +131,9 @@ public class NoteFragment extends Fragment {
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_scan_item_text_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_scan_item_date_text_view);
-            mTimeTextView = (TextView) itemView.findViewById(R.id.list_item_scan_item_time_text_view);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.list_note_title_text_view);
+            mDateTextView = (TextView) itemView.findViewById(R.id.list_note_date_text_view);
+            mTimeTextView = (TextView) itemView.findViewById(R.id.list_note_time_text_view);
         }
 
         public void bindScanItem(Note note) {
