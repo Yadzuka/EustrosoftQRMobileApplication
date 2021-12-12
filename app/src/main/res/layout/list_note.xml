@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/list_note_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textStyle="bold"
+        tools:text="Scan Item Text" />
+
+    <TextView
+        android:id="@+id/list_note_date_text_view"
+        android:layout_width="177dp"
+        android:layout_height="36dp"
+        android:layout_below="@id/list_note_title_text_view"
+        android:layout_marginTop="0dp"
+        android:width="40dp"
+        android:padding="4dp"
+        tools:text="Scan Item Date" />
+
+    <TextView
+        android:id="@+id/list_note_time_text_view"
+        android:layout_width="234dp"
+        android:layout_height="36dp"
+        android:layout_below="@id/list_note_title_text_view"
+        android:layout_marginLeft="0dp"
+        android:layout_toRightOf="@+id/list_note_date_text_view"
+        android:padding="4dp"
+        tools:text="Scan Item Time" />
+
+</RelativeLayout>

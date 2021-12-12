@@ -51,6 +51,7 @@ public class ScannerActivity extends Activity {
     private StartUpManager startUpManager;
     private boolean needToBib = false;
     private boolean isPause = false;
+
     private BarcodeCallback callback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {

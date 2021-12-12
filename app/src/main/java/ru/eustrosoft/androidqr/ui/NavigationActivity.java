@@ -9,6 +9,8 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,7 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.SettingsActivity;
@@ -37,8 +38,13 @@ public class NavigationActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Test", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null);
+                // TODO: replace fragment
+                transaction.add(manager.getPrimaryNavigationFragment().getId(), NoteActionFragment.class, null);
+                transaction.commit();
             }
         });
 
@@ -46,7 +52,7 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_notes
         ).setDrawerLayout(drawer).build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
