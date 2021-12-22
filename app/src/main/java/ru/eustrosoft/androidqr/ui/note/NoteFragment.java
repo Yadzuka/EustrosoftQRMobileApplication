@@ -1,7 +1,9 @@
 package ru.eustrosoft.androidqr.ui.note;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -122,7 +124,7 @@ public class NoteFragment extends Fragment {
         }
     }
 
-    private class NoteHolder extends RecyclerView.ViewHolder {
+    private class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Note mNote;
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -141,6 +143,12 @@ public class NoteFragment extends Fragment {
             mTitleTextView.setText(mNote.getText());
             mDateTextView.setText(getDate(mNote));
             mTimeTextView.setText(getTime(mNote));
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = NotesActivity.newIntent(getActivity(), mNote.getId());
+            startActivity(intent);
         }
     }
 }
