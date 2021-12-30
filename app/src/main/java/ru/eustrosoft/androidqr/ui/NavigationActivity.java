@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.SettingsActivity;
+import ru.eustrosoft.androidqr.ui.note.NoteCreationActivity;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -35,17 +33,9 @@ public class NavigationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction()
-                        .setReorderingAllowed(true)
-                        .addToBackStack(null);
-                // TODO: replace fragment
-                transaction.add(manager.getPrimaryNavigationFragment().getId(), NoteActionFragment.class, null);
-                transaction.commit();
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), NoteCreationActivity.class);
+            startActivity(intent);
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

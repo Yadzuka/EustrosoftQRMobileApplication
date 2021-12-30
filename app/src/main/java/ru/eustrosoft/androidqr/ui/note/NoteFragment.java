@@ -3,9 +3,9 @@ package ru.eustrosoft.androidqr.ui.note;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -129,6 +129,7 @@ public class NoteFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private TextView mTimeTextView;
+        private RelativeLayout relativeLayout;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -136,11 +137,20 @@ public class NoteFragment extends Fragment {
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_note_title_text_view);
             mDateTextView = (TextView) itemView.findViewById(R.id.list_note_date_text_view);
             mTimeTextView = (TextView) itemView.findViewById(R.id.list_note_time_text_view);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.scan_element);
+
+            relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = NotesActivity.newIntent(getActivity(), mNote.getId());
+                    startActivity(intent);
+                }
+            });
         }
 
         public void bindScanItem(Note note) {
             mNote = note;
-            mTitleTextView.setText(mNote.getText());
+            mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(getDate(mNote));
             mTimeTextView.setText(getTime(mNote));
         }

@@ -47,8 +47,8 @@ public class NotesActivity extends AppCompatActivity {
     private void showNoteData(Note note) {
         titleTextView.setText(note.getTitle());
         textTextView.setText(note.getText());
-        dateTextView.setText(getFormattedTime(note.getTime()));
-        timeTextView.setText(getFormattedDate(note.getDate()));
+        dateTextView.setText(getFormattedDate(note.getDate()));
+        timeTextView.setText(getFormattedTime(note.getTime()));
     }
 
     private void initElements() {

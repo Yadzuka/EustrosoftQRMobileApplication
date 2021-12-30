@@ -38,7 +38,7 @@ public class NoteLab {
         values.put(NoteDBSchema.NoteTable.Cols.DATE, note.getDate().getTime());
         values.put(NoteDBSchema.NoteTable.Cols.TIME, note.getTime().getTime());
         values.put(NoteDBSchema.NoteTable.Cols.TEXT, note.getText());
-        values.put(NoteDBSchema.NoteTable.Cols.TITLE, note.getText());
+        values.put(NoteDBSchema.NoteTable.Cols.TITLE, note.getTitle());
 
         return values;
     }
