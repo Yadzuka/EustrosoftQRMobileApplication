@@ -3,6 +3,7 @@ package ru.eustrosoft.androidqr.ui.note;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import java.util.UUID;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
+import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
 import static ru.eustrosoft.androidqr.util.DateUtil.getFormattedDate;
 import static ru.eustrosoft.androidqr.util.DateUtil.getFormattedTime;
@@ -24,6 +26,7 @@ public class NotesActivity extends AppCompatActivity {
     private TextView textTextView;
     private TextView dateTextView;
     private TextView timeTextView;
+    private Button deleteNoteButton;
 
     public static Intent newIntent(Context packageContext, UUID noteId){
         Intent intent = new Intent(packageContext, NotesActivity.class);
@@ -41,6 +44,14 @@ public class NotesActivity extends AppCompatActivity {
         if (noteId != null) {
             Note note = NoteLab.get(this).getNote(noteId);
             showNoteData(note);
+            deleteNoteButton.setOnClickListener(v -> {
+                NoteLab.get(getApplicationContext()).deleteNote(note);
+                ToastHelper.toastCenter(
+                        getApplicationContext(),
+                        "Note was successfully deleted!"
+                );
+                finish();
+            });
         }
     }
 
@@ -56,5 +67,6 @@ public class NotesActivity extends AppCompatActivity {
         textTextView = findViewById(R.id.notes_text_view);
         dateTextView = findViewById(R.id.notes_date_view);
         timeTextView = findViewById(R.id.notes_time_view);
+        deleteNoteButton = findViewById(R.id.delete_note_button);
     }
 }

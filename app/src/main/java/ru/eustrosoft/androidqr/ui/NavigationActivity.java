@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import ru.eustrosoft.androidqr.ApplicationLogActivity;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.SettingsActivity;
 import ru.eustrosoft.androidqr.ui.note.NoteCreationActivity;
@@ -54,8 +55,12 @@ public class NavigationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            case R.id.action_dev_log:
+                Intent appLogActivity = new Intent(getApplicationContext(), ApplicationLogActivity.class);
+                startActivity(appLogActivity);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
