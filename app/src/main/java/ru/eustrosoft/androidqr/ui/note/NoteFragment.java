@@ -20,28 +20,22 @@ import java.util.List;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
-import ru.eustrosoft.androidqr.model.ScanItemLab;
 
 public class NoteFragment extends Fragment {
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
     private static boolean mSubtitleVisible;
     private RecyclerView mNoteRecycleViewer;
     private NoteAdapter mAdapter;
-    private TextView mTextView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_note, container, false);
+        View root = inflater.inflate(R.layout.activity_note, container, false);
 
         mNoteRecycleViewer = (RecyclerView) root.findViewById(R.id.notes_view);
         mNoteRecycleViewer.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mTextView = (TextView) root.findViewById(R.id.no_notes);
 
         if (savedInstanceState != null)
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
-
-        if (ScanItemLab.get(getActivity()).getScanItems().size() == 0)
-            mTextView.setVisibility(View.VISIBLE);
 
         updateUI();
 

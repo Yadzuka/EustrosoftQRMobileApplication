@@ -27,5 +27,5 @@
         android:id="@+id/nav_notes"
         android:name="ru.eustrosoft.androidqr.ui.note.NoteFragment"
         android:label="@string/menu_notes"
-        tools:layout="@layout/fragment_note" />
+        tools:layout="@layout/activity_note" />
 </navigation>

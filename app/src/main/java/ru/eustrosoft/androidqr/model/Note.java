@@ -59,4 +59,8 @@ public class Note {
     public void setText(String text) {
         this.text = text;
     }
+
+    public String getPhotoFilename() {
+        return "IMG_" + getId().toString() + ".jpg";
+    }
 }

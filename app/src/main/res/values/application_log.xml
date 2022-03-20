@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="application_log">
-        Hello
-    </string>
+    <string-array name="application_log_title">
+        <item>Версия 0.2</item>
+        <item>Версия 0.1</item>
+    </string-array>
+    <string-array name="application_log_text">
+        <item>
+            - Добавлена возможность удаления заметок.
+            \n - Добавлена возможность просмотра изменений приложения.
+        </item>
+        <item>
+            Запущена первая пробная версия.
+            \n - Добавлен сканер кодов.
+            \n - Добавлена возможность создания и просмотра заметок.
+            \n - Добавлен генератор QR кодов.
+            \n - Считывающиеся данные от сканера сохраняются и их можно посмотреть во вкладке из панели навигации.
+        </item>
+    </string-array>
 </resources>

@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +52,16 @@ public class NoteLab {
         mDatabase.update(NoteDBSchema.NoteTable.NAME, values,
                 NoteDBSchema.NoteTable.Cols.UUID + " = ? ",
                 new String[]{uuidString});
+    }
+
+    public File getPhotoFile(Note note) {
+        File externalFileDir = mContext
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        if (externalFileDir == null)
+            return null;
+
+        return new File(externalFileDir, note.getPhotoFilename());
     }
 
     private NoteCursorWrapper queryScanItems(String whereClause, String[] whereArgs) {
