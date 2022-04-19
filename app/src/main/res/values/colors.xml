@@ -6,4 +6,5 @@
     <color name="colorPrimary">#03AAA5</color>
     <color name="colorPrimaryDark">#15ACB5</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="loginPageBackgroundColor">#C1C1C1C1</color>
 </resources>

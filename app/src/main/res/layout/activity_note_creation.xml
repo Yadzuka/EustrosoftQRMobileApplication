@@ -11,37 +11,36 @@
         android:layout_alignParentTop="true"
         android:padding="10dp">
 
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:id="@+id/note_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:text="Title" />
+            android:hint="@string/note_hint_title">
 
-        <EditText
-            android:id="@+id/note_title_edit_field"
-            android:layout_height="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/note_title_edit_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:textColor="@color/colorAccent"
-            android:layout_toRightOf="@id/note_title" />
-
-        <TextView
+            android:layout_height="wrap_content"
             android:id="@+id/note_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_margin="4dp"
             android:layout_below="@id/note_title"
-            android:text="Text" />
+            android:hint="@string/note_hint_text">
 
-        <EditText
-            android:id="@+id/note_text_edit_field"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textColor="@color/colorAccent"
-            android:layout_below="@id/note_title_edit_field"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/note_text" />
-
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/note_text_edit_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
     </RelativeLayout>
 
     <RelativeLayout

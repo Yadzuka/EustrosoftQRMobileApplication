@@ -3,9 +3,7 @@ package ru.eustrosoft.androidqr.ui.note;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,11 +32,8 @@ public class NotesActivity extends AppCompatActivity {
     private TextView dateTextView;
     private TextView timeTextView;
     private ImageView noteImageView;
-    private ViewTreeObserver noteImageObserver;
     private Button deleteNoteButton;
     private Button saveNoteButton;
-
-    private Point mPhotoViewSize;
 
     public static Intent newIntent(Context packageContext, UUID noteId) {
         Intent intent = new Intent(packageContext, NotesActivity.class);
@@ -49,7 +44,7 @@ public class NotesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
+        setContentView(R.layout.activity_note);
         initElements();
 
         UUID noteId = (UUID) getIntent().getSerializableExtra(EXTRA_NOTE_ID);

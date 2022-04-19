@@ -14,7 +14,7 @@
     <string name="action_dev_log">Development Log</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
+    <string name="menu_history">History</string>
     <string name="menu_qrencoder">QR Encoder</string>
     <string name="menu_notes">Notes</string>
 
@@ -25,11 +25,25 @@
 
     <string name="start_scan_button">Сканировать</string>
 
+    <!-- Basics -->
+    <string name="label_search">Search!</string>
+    <string name="label_text_copied">Text copied!</string>
+
+
     <!-- Notes activity strings -->
     <string name="label_note_title">Title:</string>
     <string name="label_note_text">Text:</string>
     <string name="label_note_date">Date:</string>
     <string name="label_note_time">Time:</string>
+
+    <!-- Scan Item activity strings -->
+    <string name="label_scan_item_text">Scanned Text:</string>
+    <string name="label_scan_item_date">Scanned Date:</string>
+    <string name="label_scan_item_search">You can</string>
+    <string name="button_scan_item_search">search it</string>
+    <string name="label_scan_item_copy">or just</string>
+    <string name="button_scan_item_copy">copy text</string>
+    <string name="label_scan_item_eustrosoft_reference">It seems like it is Eustrosoft reference, you can try to search it in the System:</string>
 
     <!-- Preference Titles -->
     <string name="application_log_header">История обновлений приложения</string>
@@ -39,6 +53,9 @@
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
+
+    <!-- Error messages -->
+    <string name="error_loading_qr_code">Error occurred while loading qr code.</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
@@ -144,4 +161,8 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_note">NoteActivity</string>
+    <string name="note_hint_title">Title</string>
+    <string name="note_hint_text">Text</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

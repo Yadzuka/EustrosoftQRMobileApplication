@@ -29,7 +29,7 @@ public class NoteFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_note, container, false);
+        View root = inflater.inflate(R.layout.activity_notes, container, false);
 
         mNoteRecycleViewer = (RecyclerView) root.findViewById(R.id.notes_view);
         mNoteRecycleViewer.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -105,7 +105,7 @@ public class NoteFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
             Note note = mNotes.get(position);
-            holder.bindScanItem(note);
+            holder.bindNoteItem(note);
         }
 
         @Override
@@ -131,7 +131,7 @@ public class NoteFragment extends Fragment {
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_note_title_text_view);
             mDateTextView = (TextView) itemView.findViewById(R.id.list_note_date_text_view);
             mTimeTextView = (TextView) itemView.findViewById(R.id.list_note_time_text_view);
-            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.scan_element);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.note_item);
 
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -142,7 +142,7 @@ public class NoteFragment extends Fragment {
             });
         }
 
-        public void bindScanItem(Note note) {
+        public void bindNoteItem(Note note) {
             mNote = note;
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(getDate(mNote));

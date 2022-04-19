@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".ui.note.NotesActivity">
+    android:padding="@dimen/box_inset_layout_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,83 +14,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_note_title"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/notes_title_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_note_text"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/notes_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_note_date"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:id="@+id/notes_date_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_note_time"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:id="@+id/notes_time_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
 
             <ImageView
-                android:id="@+id/notes_image_view"
+                android:id="@+id/scan_item_image_view"
                 android:layout_width="370dp"
                 android:layout_height="300dp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -100,17 +27,89 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
 
-            <Button
-                android:id="@+id/delete_note_button"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete" />
+                android:text="@string/label_scan_item_text"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/scan_item_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_scan_item_date"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/scan_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_scan_item_search"
+                android:textSize="@dimen/text_size" />
 
             <Button
-                android:id="@+id/save_note_button"
+                android:id="@+id/button_scan_item_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save" />
+                android:text="@string/button_scan_item_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_scan_item_copy"
+                android:textSize="@dimen/text_size" />
+
+            <Button
+                android:id="@+id/button_scan_item_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_scan_item_copy" />
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_scan_item_eustrosoft_reference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/scan_item_eustrosoft_reference"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_scan_item_eustrosoft_reference"
+                android:textSize="@dimen/text_size" />
+
+            <Button
+                android:id="@+id/button_scan_item_eustrosoft_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scan_item_eustrosoft_reference"
+                android:text="@string/label_search"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
