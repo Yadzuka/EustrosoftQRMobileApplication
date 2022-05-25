@@ -165,4 +165,12 @@
     <string name="note_hint_text">Text</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_database">Database</string>
+    <string name="menu_database">Database</string>
+    <string name="database_url_hint">Database Url</string>
+    <string name="database_user_hint">Database User</string>
+    <string name="database_password_hint">Database Password</string>
+    <string name="database_query_hint">Database Query</string>
+    <string name="execute_query_button">Connect To Database</string> <!-- TODO: change -->
+    <string name="query_text_view">Here will be present connection result.</string> <!-- TODO: change -->
 </resources>

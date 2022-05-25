@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="false"
@@ -15,7 +17,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.browser.BrowserActivity"></activity>
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -28,6 +30,7 @@
         </provider>
 
         <activity android:name=".ApplicationLogItem" />
+        <activity android:name=".ui.browser.BrowserActivity" />
         <activity
             android:name=".ui.note.NoteCreationActivity"
             android:label="@string/title_activity_note" />
