@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 import ru.eustrosoft.androidqr.R;
@@ -72,13 +73,14 @@ public class HistoryFragment extends Fragment {
 
     private void updateUI() {
         ScanItemLab scanItemLab = ScanItemLab.get(getActivity());
-        List<ScanItem> ScanItems = scanItemLab.getScanItems();
+        List<ScanItem> scanItems = scanItemLab.getScanItems();
+        Collections.reverse(scanItems);
 
         if (mAdapter == null) {
-            mAdapter = new ScanItemAdapter(ScanItems);
+            mAdapter = new ScanItemAdapter(scanItems);
             mScanItemRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.setScanItems(ScanItems);
+            mAdapter.setScanItems(scanItems);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -99,8 +101,8 @@ public class HistoryFragment extends Fragment {
 
         private List<ScanItem> mScanItems;
 
-        public ScanItemAdapter(List<ScanItem> ScanItems) {
-            mScanItems = ScanItems;
+        public ScanItemAdapter(List<ScanItem> scanItems) {
+            mScanItems = scanItems;
         }
 
         @NonNull

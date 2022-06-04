@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 import ru.eustrosoft.androidqr.R;
@@ -65,6 +66,7 @@ public class NoteFragment extends Fragment {
     private void updateUI() {
         NoteLab noteLab = NoteLab.get(getActivity());
         List<Note> notes = noteLab.getNotes();
+        Collections.reverse(notes);
 
         if (mAdapter == null) {
             mAdapter = new NoteAdapter(notes);
