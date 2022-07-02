@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.zxing.WriterException;
@@ -21,11 +22,13 @@ import com.google.zxing.WriterException;
 import java.util.UUID;
 
 import ru.eustrosoft.androidqr.R;
+import ru.eustrosoft.androidqr.model.NoteLab;
 import ru.eustrosoft.androidqr.model.ScanItem;
 import ru.eustrosoft.androidqr.model.ScanItemLab;
 import ru.eustrosoft.androidqr.ui.browser.BrowserActivity;
 import ru.eustrosoft.androidqr.util.BitmapTextCreator;
 import ru.eustrosoft.androidqr.util.qr.QREncoder;
+import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
 import static ru.eustrosoft.androidqr.util.DateUtil.getFormattedDate;
 
@@ -38,6 +41,7 @@ public class HistoryItemActivity extends AppCompatActivity {
     private Button systemReferenceButton;
     private Button searchButton;
     private Button copyButton;
+    private Button deleteButton;
 
     private ClipboardManager clipboardManager;
     private ClipData clipData;
@@ -75,8 +79,12 @@ public class HistoryItemActivity extends AppCompatActivity {
             searchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(scanItem.getText()));
-                    startActivity(browserIntent);
+                    try {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(scanItem.getText()));
+                        startActivity(browserIntent);
+                    } catch (Exception ex) {
+                        ToastHelper.toastCenter(getApplicationContext(), ex.getLocalizedMessage());
+                    }
                 }
             });
 
@@ -91,6 +99,27 @@ public class HistoryItemActivity extends AppCompatActivity {
                             getString(R.string.label_text_copied),
                             Toast.LENGTH_SHORT
                     ).show();
+                }
+            });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setTitle("Are you sure you want to delete this history item?"); //TODO make text string
+                    builder.setMessage("");
+                    builder.setPositiveButton("Yes", (dialog, id) -> {
+                        ScanItemLab.get(v.getContext())
+                                .deleteScanItem(scanItem);
+                        ToastHelper.toastCenter(
+                                getApplicationContext(),
+                                "History item was deleted."
+                        );
+                        finish();
+                    });
+                    builder.setNegativeButton("No", (dialog, id) -> {
+                    });
+                    builder.show();
                 }
             });
         }
@@ -123,5 +152,6 @@ public class HistoryItemActivity extends AppCompatActivity {
         copyButton = findViewById(R.id.button_scan_item_copy);
         imageView = findViewById(R.id.scan_item_image_view);
         systemReferenceButton = findViewById(R.id.button_scan_item_eustrosoft_search);
+        deleteButton = findViewById(R.id.button_delete_scanned_item);
     }
 }

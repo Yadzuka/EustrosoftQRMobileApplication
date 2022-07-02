@@ -35,6 +35,8 @@ public class NotesActivity extends AppCompatActivity {
     private Button deleteNoteButton;
     private Button saveNoteButton;
 
+    private Note note;
+
     public static Intent newIntent(Context packageContext, UUID noteId) {
         Intent intent = new Intent(packageContext, NotesActivity.class);
         intent.putExtra(EXTRA_NOTE_ID, noteId);
@@ -49,7 +51,7 @@ public class NotesActivity extends AppCompatActivity {
 
         UUID noteId = (UUID) getIntent().getSerializableExtra(EXTRA_NOTE_ID);
         if (noteId != null) {
-            Note note = NoteLab.get(this).getNote(noteId);
+            note = NoteLab.get(this).getNote(noteId);
             showNoteData(note);
             updatePhotoView(note);
             deleteNoteButton.setOnClickListener(v -> {
@@ -92,6 +94,14 @@ public class NotesActivity extends AppCompatActivity {
                     file.getPath(), this);
             noteImageView.setImageBitmap(image);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        setDataToNote(note);
+        NoteLab.get(getApplicationContext()).updateScanItem(note);
     }
 
     private void setDataToNote(Note note) {

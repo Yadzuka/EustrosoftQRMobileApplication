@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import ru.eustrosoft.androidqr.AboutActivity;
 import ru.eustrosoft.androidqr.ApplicationLogActivity;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.SettingsActivity;
@@ -61,6 +62,10 @@ public class NavigationActivity extends AppCompatActivity {
             case R.id.action_dev_log:
                 Intent appLogActivity = new Intent(getApplicationContext(), ApplicationLogActivity.class);
                 startActivity(appLogActivity);
+                return true;
+            case R.id.action_about:
+                Intent aboutActivity = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivity(aboutActivity);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

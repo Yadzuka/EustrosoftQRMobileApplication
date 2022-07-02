@@ -22,9 +22,9 @@
 
 
     <!-- Main app sizes -->
-    <dimen name="title_size">34dp</dimen>
-    <dimen name="text_size">24dp</dimen>
-    <dimen name="frame_padding">18dp</dimen>
+    <dimen name="title_size">34sp</dimen>
+    <dimen name="text_size">24sp</dimen>
+    <dimen name="frame_padding">18sp</dimen>
 
 
 </resources>

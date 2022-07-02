@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class BitmapTextCreator {
+public final class BitmapTextCreator {
 
     private BitmapTextCreator() {
 
