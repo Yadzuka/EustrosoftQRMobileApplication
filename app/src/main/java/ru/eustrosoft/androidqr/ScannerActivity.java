@@ -29,7 +29,6 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.DefaultDecoderFactory;
-import com.journeyapps.barcodescanner.camera.CameraSettings;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -168,6 +167,7 @@ public class ScannerActivity extends Activity {
         builder.show();
     }
 
+    @Deprecated
     public void showPopupWindow(String searchedText) {
         onPause();
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);

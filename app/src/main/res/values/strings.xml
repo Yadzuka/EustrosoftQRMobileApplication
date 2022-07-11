@@ -25,6 +25,8 @@
     <string name="title_activity_settings">SettingsActivity</string>
 
     <string name="start_scan_button">Сканировать</string>
+    <string name="insert_item_button">Вставить текст</string>
+    <string name="scan_from_gallery_button">Сканировать фотографию из галлереи</string>
 
     <!-- Basics -->
     <string name="label_search">Search!</string>
@@ -55,6 +57,7 @@
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
+    <string name="gallery_item_not_scanned">Can not scan gallery image</string>
 
     <!-- Error messages -->
     <string name="error_loading_qr_code">Error occurred while loading qr code.</string>
