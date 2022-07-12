@@ -18,6 +18,7 @@ import java.util.UUID;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
+import ru.eustrosoft.androidqr.util.FileSize;
 import ru.eustrosoft.androidqr.util.PictureUtils;
 import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
@@ -31,6 +32,7 @@ public class NotesActivity extends AppCompatActivity {
     private TextView textTextView;
     private TextView dateTextView;
     private TextView timeTextView;
+    private TextView textImageSize;
     private ImageView noteImageView;
     private Button deleteNoteButton;
     private Button saveNoteButton;
@@ -93,6 +95,11 @@ public class NotesActivity extends AppCompatActivity {
             Bitmap image = PictureUtils.getScaledBitmap(
                     file.getPath(), this);
             noteImageView.setImageBitmap(image);
+            try {
+                textImageSize.setText(FileSize.getPropertyFileSize(file));
+            } catch (Exception ex) {
+
+            }
         }
     }
 
@@ -124,5 +131,6 @@ public class NotesActivity extends AppCompatActivity {
         deleteNoteButton = findViewById(R.id.delete_note_button);
         saveNoteButton = findViewById(R.id.save_note_button);
         noteImageView = findViewById(R.id.notes_image_view);
+        textImageSize = findViewById(R.id.notes_image_size);
     }
 }
