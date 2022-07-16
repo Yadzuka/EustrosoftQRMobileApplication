@@ -22,7 +22,6 @@ import com.google.zxing.WriterException;
 import java.util.UUID;
 
 import ru.eustrosoft.androidqr.R;
-import ru.eustrosoft.androidqr.model.NoteLab;
 import ru.eustrosoft.androidqr.model.ScanItem;
 import ru.eustrosoft.androidqr.model.ScanItemLab;
 import ru.eustrosoft.androidqr.ui.browser.BrowserActivity;
@@ -135,6 +134,8 @@ public class HistoryItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent browser = BrowserActivity.newIntent(getApplicationContext(), reference);
+                browser.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                browser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(browser);
             }
         });

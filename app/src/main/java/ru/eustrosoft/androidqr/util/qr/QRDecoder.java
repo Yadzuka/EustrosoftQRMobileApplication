@@ -13,6 +13,7 @@ import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public final class QRDecoder {
@@ -29,7 +30,7 @@ public final class QRDecoder {
             placeholderTextNotScanned = "";
         }
         String contents = placeholderTextNotScanned;
-        Bitmap bitmapImage = BitmapFactory.decodeFile(filePath);
+        Bitmap bitmapImage = BitmapFactory.decodeStream(new FileInputStream(filePath));
 
         int[] intArray = new int[bitmapImage.getWidth() * bitmapImage.getHeight()];
 

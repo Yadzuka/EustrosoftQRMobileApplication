@@ -1,9 +1,11 @@
 package ru.eustrosoft.androidqr.ui.home;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +16,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.io.FileNotFoundException;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.ScannerActivity;
+import ru.eustrosoft.androidqr.model.ScanItem;
+import ru.eustrosoft.androidqr.model.ScanItemLab;
 import ru.eustrosoft.androidqr.util.qr.QRDecoder;
 import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
@@ -27,6 +32,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
     private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int PERMISSION_LOAD_FROM_GALLERY = 2;
     private Button scanButton;
     private Button insertButton;
     private Button galleryPickButton;
@@ -50,6 +56,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        insertButton.setOnClickListener((view) -> {
+
+        });
+
         galleryPickButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,35 +75,57 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getActivity().getContentResolver().query(
-                    selectedImage,
-                    filePathColumn,
-                    null,
-                    null,
-                    null
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_DENIED
+        ) {
+            requestPermissions(
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_LOAD_FROM_GALLERY
+
             );
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            try {
-                String placeholderTextNotFound = getText(R.string.gallery_item_not_scanned).toString();
-                String decodedText = QRDecoder.decodeFromImage(picturePath, placeholderTextNotFound);
-                if (decodedText.equals(placeholderTextNotFound)) {
-                    ToastHelper.toastCenter(getContext(), placeholderTextNotFound);
-                    return;
-                }
-                clipData = ClipData.newPlainText("text", decodedText);
-                clipboardManager.setPrimaryClip(clipData);
-                decodedText = decodedText + ": text copied!";
-                ToastHelper.toastCenter(getContext(), decodedText);
-            } catch (FileNotFoundException ex) {
-                ToastHelper.toastCenter(getContext(), ex.getMessage());
-            }
         }
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getActivity().getContentResolver().query(
+                        selectedImage,
+                        filePathColumn,
+                        null,
+                        null,
+                        null
+                );
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                try {
+                    String placeholderTextNotFound = getText(R.string.gallery_item_not_scanned).toString();
+                    String decodedText = QRDecoder.decodeFromImage(picturePath, placeholderTextNotFound);
+                    if (decodedText.equals(placeholderTextNotFound)) {
+                        ToastHelper.toastCenter(getContext(), placeholderTextNotFound);
+                        return;
+                    }
+                    clipData = ClipData.newPlainText("text", decodedText);
+                    clipboardManager.setPrimaryClip(clipData);
+                    addScanItem(decodedText);
+                    decodedText = decodedText + ": text copied!";
+                    ToastHelper.toastCenter(getContext(), decodedText);
+                } catch (FileNotFoundException ex) {
+                    ToastHelper.toastCenter(getContext(), ex.getMessage());
+                }
+            }
+        } catch (Exception ex) {
+            ToastHelper.toastCenter(getContext(), ex.getMessage());
+        }
+    }
+
+    private void addScanItem(String text) {
+        ScanItem newItem = new ScanItem();
+        newItem.setText(text);
+        ScanItemLab.get(getContext()).addScanItem(
+                newItem
+        );
     }
 }

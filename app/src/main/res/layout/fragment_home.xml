@@ -47,7 +47,7 @@
             android:drawableTint="@color/black"
             android:padding="25dp"
             android:text="@string/scan_from_gallery_button"
-            android:textSize="@dimen/text_size"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints,SpUsage" />
 
     </LinearLayout>
