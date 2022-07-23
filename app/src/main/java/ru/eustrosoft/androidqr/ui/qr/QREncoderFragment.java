@@ -1,4 +1,4 @@
-package ru.eustrosoft.androidqr.ui.qrencoder;
+package ru.eustrosoft.androidqr.ui.qr;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

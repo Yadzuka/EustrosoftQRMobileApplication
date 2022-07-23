@@ -16,11 +16,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import ru.eustrosoft.androidqr.AboutActivity;
-import ru.eustrosoft.androidqr.ApplicationLogActivity;
 import ru.eustrosoft.androidqr.R;
-import ru.eustrosoft.androidqr.SettingsActivity;
+import ru.eustrosoft.androidqr.ui.about.AboutActivity;
+import ru.eustrosoft.androidqr.ui.about.ApplicationLogActivity;
 import ru.eustrosoft.androidqr.ui.note.NoteCreationActivity;
+import ru.eustrosoft.androidqr.ui.settings.SettingsActivity;
 
 public class NavigationActivity extends AppCompatActivity {
 

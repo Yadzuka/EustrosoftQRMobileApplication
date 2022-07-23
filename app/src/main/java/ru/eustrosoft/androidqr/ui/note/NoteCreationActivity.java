@@ -29,7 +29,7 @@ import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
 import ru.eustrosoft.androidqr.util.PictureUtils;
 
-import static ru.eustrosoft.androidqr.ScannerActivity.REQUEST_CODE;
+import static ru.eustrosoft.androidqr.ui.qr.ScannerActivity.REQUEST_CODE;
 import static ru.eustrosoft.androidqr.util.ui.ToastHelper.toastCenter;
 
 public class NoteCreationActivity extends AppCompatActivity {

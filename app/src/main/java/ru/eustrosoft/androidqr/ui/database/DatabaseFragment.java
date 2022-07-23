@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import java.sql.ResultSet;
 
 import ru.eustrosoft.androidqr.R;
-import ru.eustrosoft.androidqr.apipostgres.DBConnector;
+import ru.eustrosoft.androidqr.database.apipostgres.DBConnector;
 
-import static ru.eustrosoft.androidqr.apipostgres.DBConnector.KEY_PASSWORD;
-import static ru.eustrosoft.androidqr.apipostgres.DBConnector.KEY_USER;
+import static ru.eustrosoft.androidqr.database.apipostgres.DBConnector.KEY_PASSWORD;
+import static ru.eustrosoft.androidqr.database.apipostgres.DBConnector.KEY_USER;
 
 public class DatabaseFragment extends Fragment {
     private EditText databaseUrl;

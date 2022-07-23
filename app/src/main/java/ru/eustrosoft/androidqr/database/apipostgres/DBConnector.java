@@ -1,4 +1,4 @@
-package ru.eustrosoft.androidqr.apipostgres;
+package ru.eustrosoft.androidqr.database.apipostgres;
 
 import android.os.StrictMode;
 

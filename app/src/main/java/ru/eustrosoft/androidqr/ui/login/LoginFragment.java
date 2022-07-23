@@ -1,4 +1,4 @@
-package ru.eustrosoft.androidqr;
+package ru.eustrosoft.androidqr.ui.login;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import ru.eustrosoft.androidqr.R;
 
 public class LoginFragment extends Fragment {
 

@@ -80,7 +80,11 @@ public class HistoryItemActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     try {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(scanItem.getText()));
-                        startActivity(browserIntent);
+                        if (browserIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(browserIntent);
+                        } else {
+                            ToastHelper.toastCenter(getApplicationContext(), "Can not search this text.");
+                        }
                     } catch (Exception ex) {
                         ToastHelper.toastCenter(getApplicationContext(), ex.getLocalizedMessage());
                     }

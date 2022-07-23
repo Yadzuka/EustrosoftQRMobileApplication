@@ -1,6 +1,7 @@
 package ru.eustrosoft.androidqr.ui.home;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -10,10 +11,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -22,9 +25,9 @@ import androidx.fragment.app.Fragment;
 import java.io.FileNotFoundException;
 
 import ru.eustrosoft.androidqr.R;
-import ru.eustrosoft.androidqr.ScannerActivity;
 import ru.eustrosoft.androidqr.model.ScanItem;
 import ru.eustrosoft.androidqr.model.ScanItemLab;
+import ru.eustrosoft.androidqr.ui.qr.ScannerActivity;
 import ru.eustrosoft.androidqr.util.qr.QRDecoder;
 import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
@@ -48,26 +51,33 @@ public class HomeFragment extends Fragment {
         galleryPickButton = root.findViewById(R.id.scan_from_gallery);
         clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ScannerActivity.class);
-                startActivity(intent);
-            }
+        scanButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ScannerActivity.class);
+            startActivity(intent);
         });
 
         insertButton.setOnClickListener((view) -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Add new qr text to history");
+            final EditText input = new EditText(getContext());
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
 
+            builder.setPositiveButton("Add", (dialog, which) -> {
+                String text = input.getText().toString();
+                addScanItem(text);
+                ToastHelper.toastCenter(getContext(), "New scanned item was added to history. \nYou can see in in correspondence tab.");
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+            builder.show();
         });
 
-        galleryPickButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(
-                        Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                );
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
+        galleryPickButton.setOnClickListener(v -> {
+            Intent i = new Intent(
+                    Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            );
+            startActivityForResult(i, RESULT_LOAD_IMAGE);
         });
 
         return root;
