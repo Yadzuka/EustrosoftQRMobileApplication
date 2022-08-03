@@ -25,9 +25,9 @@
 
     <fragment
         android:id="@+id/nav_notes"
-        android:name="ru.eustrosoft.androidqr.ui.note.NoteFragment"
+        android:name="ru.eustrosoft.androidqr.ui.note.NotesFragment"
         android:label="@string/menu_notes"
-        tools:layout="@layout/activity_notes" />
+        tools:layout="@layout/fragment_notes" />
 
     <fragment
         android:id="@+id/nav_database"

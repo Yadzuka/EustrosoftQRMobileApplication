@@ -15,4 +15,7 @@
     <files-path
         name="files"
         path="." />
+    <external-path
+        name="files_root"
+        path="Android/data/${applicationId}" />
 </paths>

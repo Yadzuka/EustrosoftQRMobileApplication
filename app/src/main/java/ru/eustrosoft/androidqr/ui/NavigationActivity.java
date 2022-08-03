@@ -13,13 +13,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.ui.about.AboutActivity;
 import ru.eustrosoft.androidqr.ui.about.ApplicationLogActivity;
-import ru.eustrosoft.androidqr.ui.note.NoteCreationActivity;
 import ru.eustrosoft.androidqr.ui.settings.SettingsActivity;
 
 public class NavigationActivity extends AppCompatActivity {
@@ -33,12 +31,6 @@ public class NavigationActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), NoteCreationActivity.class);
-            startActivity(intent);
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

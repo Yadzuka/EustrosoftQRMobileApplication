@@ -45,7 +45,7 @@ public class NoteLab {
         return values;
     }
 
-    public void updateScanItem(Note note) {
+    public void updateNote(Note note) {
         String uuidString = note.getId().toString();
         ContentValues values = getContentValues(note);
 
@@ -62,6 +62,21 @@ public class NoteLab {
             return null;
 
         return new File(externalFileDir, note.getPhotoFilename());
+    }
+
+    public File getPhotosDirectory(Note note) {
+        File externalFileDir = mContext
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        if (externalFileDir == null)
+            return null;
+
+        File imagesDir = new File(externalFileDir, note.getPhotosDirectory());
+        if (!imagesDir.exists()) {
+            if (!imagesDir.mkdir())
+                return null;
+        }
+        return imagesDir;
     }
 
     private NoteCursorWrapper queryScanItems(String whereClause, String[] whereArgs) {

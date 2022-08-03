@@ -63,4 +63,8 @@ public class Note {
     public String getPhotoFilename() {
         return "IMG_" + getId().toString() + ".jpg";
     }
+
+    public String getPhotosDirectory() {
+        return "IMG_" + getId().toString();
+    }
 }

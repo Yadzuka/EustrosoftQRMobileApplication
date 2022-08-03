@@ -20,7 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.note.NewNoteCreation"></activity>
         <activity android:name=".ui.about.AboutActivity" />
 
         <provider
@@ -36,10 +35,8 @@
         <activity android:name=".ui.about.ApplicationLogItem" />
         <activity android:name=".ui.browser.BrowserActivity" />
         <activity
-            android:name=".ui.note.NoteCreationActivity"
-            android:label="@string/title_activity_note" />
-        <activity
-            android:name=".ui.note.NotesActivity"
+            android:name=".ui.note.NoteActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:label="@string/title_activity_notes" />
         <activity android:name=".ui.history.HistoryItemActivity" />
         <activity

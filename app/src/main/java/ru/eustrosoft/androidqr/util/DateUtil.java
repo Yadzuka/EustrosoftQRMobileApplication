@@ -12,6 +12,9 @@ public final class DateUtil {
     }
 
     public static String getFormattedDate(Date date) {
+        if (date == null) {
+            return "";
+        }
         return dateFormat.format(date);
     }
 }

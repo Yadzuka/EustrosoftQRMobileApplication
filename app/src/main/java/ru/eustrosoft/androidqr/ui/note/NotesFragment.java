@@ -10,11 +10,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,18 +26,26 @@ import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
 
-public class NoteFragment extends Fragment {
+public class NotesFragment extends Fragment {
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
     private static boolean mSubtitleVisible;
+    private List<Note> selectedNotes;
     private RecyclerView mNoteRecycleViewer;
     private NoteAdapter mAdapter;
+    private FloatingActionButton floatingActionButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_notes, container, false);
+        View root = inflater.inflate(R.layout.fragment_notes, container, false);
 
-        mNoteRecycleViewer = (RecyclerView) root.findViewById(R.id.notes_view);
+        mNoteRecycleViewer = root.findViewById(R.id.notes_view);
         mNoteRecycleViewer.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        floatingActionButton = root.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), NoteActivity.class);
+            startActivity(intent);
+        });
 
         if (savedInstanceState != null)
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
@@ -49,6 +61,7 @@ public class NoteFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        selectedNotes = new ArrayList<>();
     }
 
     @Override
@@ -107,7 +120,7 @@ public class NoteFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
             Note note = mNotes.get(position);
-            holder.bindNoteItem(note);
+            holder.bindNoteItem(note, position);
         }
 
         @Override
@@ -120,8 +133,9 @@ public class NoteFragment extends Fragment {
         }
     }
 
-    private class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class NoteHolder extends RecyclerView.ViewHolder {
         private Note mNote;
+        private int mPosition;
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private TextView mTimeTextView;
@@ -130,31 +144,44 @@ public class NoteFragment extends Fragment {
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_note_title_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_note_date_text_view);
-            mTimeTextView = (TextView) itemView.findViewById(R.id.list_note_time_text_view);
-            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.note_item);
+            mTitleTextView = itemView.findViewById(R.id.list_note_title_text_view);
+            mDateTextView = itemView.findViewById(R.id.list_note_date_text_view);
+            mTimeTextView = itemView.findViewById(R.id.list_note_time_text_view);
+            relativeLayout = itemView.findViewById(R.id.note_item);
 
-            relativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = NotesActivity.newIntent(getActivity(), mNote.getId());
-                    startActivity(intent);
-                }
+
+            relativeLayout.setOnClickListener(v -> {
+                Intent intent = NoteActivity.newIntent(getActivity(), mNote.getId());
+                startActivity(intent);
+            });
+
+            relativeLayout.setOnLongClickListener(v -> {
+                PopupMenu menu = new PopupMenu(getContext(), v);
+                menu.getMenu().add("Open"); // TODO
+                menu.getMenu().add("Delete");
+                menu.setOnMenuItemClickListener(item -> {
+                    if (item.getTitle().equals("Delete")) {
+                        NoteLab.get(getContext()).deleteNote(mNote);
+                        updateUI();
+                    }
+                    if (item.getTitle().equals("Open")) {
+                        Intent intent = NoteActivity.newIntent(getActivity(), mNote.getId());
+                        startActivity(intent);
+                    }
+                    return true;
+                });
+                menu.show();
+                selectedNotes.add(mNote);
+                return true;
             });
         }
 
-        public void bindNoteItem(Note note) {
+        public void bindNoteItem(Note note, int position) {
             mNote = note;
+            mPosition = position;
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(getDate(mNote));
             mTimeTextView.setText(getTime(mNote));
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = NotesActivity.newIntent(getActivity(), mNote.getId());
-            startActivity(intent);
         }
     }
 }
