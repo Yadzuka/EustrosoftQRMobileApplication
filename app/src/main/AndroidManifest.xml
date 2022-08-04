@@ -36,7 +36,6 @@
         <activity android:name=".ui.browser.BrowserActivity" />
         <activity
             android:name=".ui.note.NoteActivity"
-            android:windowSoftInputMode="adjustNothing"
             android:label="@string/title_activity_notes" />
         <activity android:name=".ui.history.HistoryItemActivity" />
         <activity

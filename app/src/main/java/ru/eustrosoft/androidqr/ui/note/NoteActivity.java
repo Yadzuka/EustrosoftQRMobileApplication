@@ -59,6 +59,11 @@ public class NoteActivity extends AppCompatActivity {
     private static final String NOTE_UPDATED = "This note was updated";
     private static final String NOTE_CREATED = "New note was added";
     private static final int REQUEST_PHOTO = 3;
+
+    private EditText titleTextView;
+    private TextView dateTextView;
+    private TextView timeTextView;
+    private Note note;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -83,14 +88,10 @@ public class NoteActivity extends AppCompatActivity {
                         FileUtil.copyFile(file, targetFile);
                         updatePhotoView();
                     } catch (Exception ex) {
-                        ToastHelper.toastCenter(getApplicationContext(), "Can't load image from gallery."); // TODO
+                        ToastHelper.toastCenter(getApplicationContext(), "Can't load image from gallery.");
                     }
                 }
             });
-    private EditText titleTextView;
-    private TextView dateTextView;
-    private TextView timeTextView;
-    private Note note;
     private EditText textTextView;
 
     public static Intent newIntent(Context packageContext, UUID noteId) {
