@@ -121,6 +121,7 @@ public class HistoryItemActivity extends AppCompatActivity {
                         finish();
                     });
                     builder.setNegativeButton("No", (dialog, id) -> {
+                        dialog.dismiss();
                     });
                     builder.show();
                 }

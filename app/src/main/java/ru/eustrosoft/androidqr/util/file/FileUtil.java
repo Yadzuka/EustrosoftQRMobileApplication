@@ -28,4 +28,17 @@ public final class FileUtil {
             destinationChannel.close();
         }
     }
+
+    public static void deleteFileTree(File file) throws IOException {
+        File[] entries = file.listFiles();
+        if (entries != null) {
+            for (File entry : entries) {
+                deleteFileTree(entry);
+            }
+        }
+        if (!file.delete()) {
+            throw new IOException("Failed to delete " + file);
+        }
+    }
+
 }

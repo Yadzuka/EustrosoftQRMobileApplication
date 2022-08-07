@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search_notes"
+        android:enabled="true"
+        android:icon="?android:attr/actionModeWebSearchDrawable"
+        android:orderInCategory="0"
+        android:title="@string/action_send_note"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/action_filter_notes"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:orderInCategory="0"
+        android:title="@string/action_send_note"
+        app:showAsAction="ifRoom|withText" />
+</menu>

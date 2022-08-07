@@ -1,4 +1,4 @@
-package ru.eustrosoft.androidqr.util;
+package ru.eustrosoft.androidqr.util.file;
 
 import android.annotation.SuppressLint;
 

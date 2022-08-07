@@ -1,10 +1,17 @@
 package ru.eustrosoft.androidqr.ui.note;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,14 +29,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
+import ru.eustrosoft.androidqr.util.text.KnuthMorrisSearch;
+import ru.eustrosoft.androidqr.util.text.Searcher;
+import ru.eustrosoft.androidqr.util.text.TextSearchParameters;
 
 public class NotesFragment extends Fragment {
-    private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
-    private static boolean mSubtitleVisible;
     private List<Note> selectedNotes;
     private RecyclerView mNoteRecycleViewer;
     private NoteAdapter mAdapter;
@@ -40,21 +50,55 @@ public class NotesFragment extends Fragment {
 
         mNoteRecycleViewer = root.findViewById(R.id.notes_view);
         mNoteRecycleViewer.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         floatingActionButton = root.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), NoteActivity.class);
             startActivity(intent);
         });
-
-        if (savedInstanceState != null)
-            mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
-
         updateUI();
-
         mNoteRecycleViewer.getAdapter().notifyItemMoved(0, 5);
-
         return root;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search_notes:
+                showSearchWindow();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showSearchWindow() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Search text");
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        View alertDialogView = getLayoutInflater().inflate(R.layout.dialog_search, null);
+        CheckBox searchInTitle = alertDialogView.findViewById(R.id.search_in_titles);
+        CheckBox searchInText = alertDialogView.findViewById(R.id.search_in_text);
+        CheckBox ignoreCase = alertDialogView.findViewById(R.id.ignore_case);
+        EditText searchedText = alertDialogView.findViewById(R.id.searched_string);
+        builder.setView(alertDialogView);
+        builder.setPositiveButton("Search", (dialog, which) -> {
+            searchTextInNotes(
+                    new TextSearchParameters(
+                            ignoreCase.isChecked(),
+                            searchedText.getText().toString().toCharArray()
+                    ),
+                    searchInTitle.isChecked(),
+                    searchInText.isChecked()
+            );
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.list_notes, menu);
     }
 
     @Override
@@ -67,18 +111,25 @@ public class NotesFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+    }
+
+    private List<Note> getDBNotes() {
+        NoteLab noteLab = NoteLab.get(getActivity());
+        return noteLab.getNotes();
     }
 
     private void updateUI() {
-        NoteLab noteLab = NoteLab.get(getActivity());
-        List<Note> notes = noteLab.getNotes();
+        List<Note> notes = getDBNotes();
         Collections.reverse(notes);
 
         if (mAdapter == null) {
@@ -130,6 +181,69 @@ public class NotesFragment extends Fragment {
 
         public void setScanItems(List<Note> notes) {
             mNotes = notes;
+        }
+    }
+
+    private void searchTextInNotes(
+            TextSearchParameters parameters,
+            boolean searchInTitle,
+            boolean searchInText
+    ) {
+        if (parameters == null) {
+            parameters = new TextSearchParameters();
+        }
+        if (parameters.getSearchText() == null
+                || new String(parameters.getSearchText()).trim().length() == 0) {
+            updateUI();
+            return;
+        }
+        final Searcher textSearch = new KnuthMorrisSearch(parameters);
+        List<Note> notesToSearch = new ArrayList<>(NoteLab.get(getContext()).getNotes());
+        try {
+            selectedNotes = notesToSearch
+                    .parallelStream()
+                    .filter(note -> {
+                        boolean passed = false;
+                        if (searchInTitle) {
+                            int res = textSearch.searchInText(
+                                    note.getTitle().toCharArray()
+                            );
+                            if (res >= 0)
+                                passed = true;
+                        }
+                        if (searchInText) {
+                            int res = textSearch.searchInText(
+                                    note.getText().toCharArray()
+                            );
+                            if (res >= 0)
+                                passed = true;
+                        }
+                        return passed;
+                    })
+                    .collect(Collectors.toList());
+            if (mAdapter == null) {
+                mAdapter = new NoteAdapter(selectedNotes);
+                mNoteRecycleViewer.setAdapter(mAdapter);
+            } else {
+                mAdapter.setScanItems(selectedNotes);
+                mAdapter.notifyDataSetChanged();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void revertSearchButton() {
+        FragmentActivity act = getActivity();
+        View searchButton = act.findViewById(R.id.action_search_notes);
+        revertVisibility(searchButton);
+    }
+
+    private void revertVisibility(View view) {
+        if (view.getVisibility() == View.VISIBLE) {
+            view.setVisibility(View.INVISIBLE);
+        } else {
+            view.setVisibility(View.VISIBLE);
         }
     }
 

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +16,7 @@ import java.util.UUID;
 import ru.eustrosoft.androidqr.database.NoteBaseHelper;
 import ru.eustrosoft.androidqr.database.NoteCursorWrapper;
 import ru.eustrosoft.androidqr.database.NoteDBSchema;
+import ru.eustrosoft.androidqr.util.file.FileUtil;
 
 public class NoteLab {
     private static NoteLab sNoteLab;
@@ -95,9 +98,7 @@ public class NoteLab {
 
     public List<Note> getNotes() {
         List<Note> notes = new ArrayList<>();
-
         NoteCursorWrapper cursor = queryScanItems(null, null);
-
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -116,6 +117,12 @@ public class NoteLab {
     }
 
     public void deleteNote(Note note) {
+        File noteFilesDir = getPhotosDirectory(note);
+        try {
+            FileUtil.deleteFileTree(noteFilesDir);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         mDatabase.delete(
                 NoteDBSchema.NoteTable.NAME,
                 NoteDBSchema.NoteTable.Cols.UUID + " = ?",
@@ -138,5 +145,8 @@ public class NoteLab {
         } finally {
             cursor.close();
         }
+    }
+
+    private void deleteFileTree(Path path) {
     }
 }

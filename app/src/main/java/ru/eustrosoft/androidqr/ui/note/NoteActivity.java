@@ -30,6 +30,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,9 +43,10 @@ import java.util.UUID;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
+import ru.eustrosoft.androidqr.ui.modals.ImageDisplayFragment;
 import ru.eustrosoft.androidqr.ui.settings.SettingsActivity;
 import ru.eustrosoft.androidqr.util.DateUtil;
-import ru.eustrosoft.androidqr.util.FileSize;
+import ru.eustrosoft.androidqr.util.file.FileSize;
 import ru.eustrosoft.androidqr.util.file.FileUtil;
 import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
@@ -54,6 +56,8 @@ import static ru.eustrosoft.androidqr.util.DateUtil.getFormattedTime;
 import static ru.eustrosoft.androidqr.util.ui.ToastHelper.toastCenter;
 
 public class NoteActivity extends AppCompatActivity {
+    private static final String DIALOG_IMAGE = "DialogImage";
+
     private static final String EXTRA_NOTE_ID = "ru.eustrosoft.noteid";
     private static final String CAMERA_ERROR_TAG = "CAMERA";
     private static final String NOTE_UPDATED = "This note was updated";
@@ -123,11 +127,19 @@ public class NoteActivity extends AppCompatActivity {
                 showAlertToDelete(note);
                 return true;
             case R.id.action_send_note:
+                updatePhotoDataAndView();
                 sendNote();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PHOTO)
+            updatePhotoView();
     }
 
     @Override
@@ -140,26 +152,23 @@ public class NoteActivity extends AppCompatActivity {
         if (noteId != null) {
             note = NoteLab.get(this).getNote(noteId);
             showNoteData(note);
-            updatePhotoView(note);
         } else {
             note = new Note();
             NoteLab.get(getApplicationContext()).addNote(note);
         }
+        updatePhotoView(note);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        updatePhotoDataAndView();
+    }
+
+    private void updatePhotoDataAndView() {
         setDataToNote(note);
         NoteLab.get(getApplicationContext()).updateNote(note);
         updatePhotoView(note);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PHOTO)
-            updatePhotoView();
     }
 
     private void showAlertToDelete(Note note) {
@@ -168,6 +177,7 @@ public class NoteActivity extends AppCompatActivity {
         builder.setMessage("");
         builder.setPositiveButton("Yes", (dialog, id) -> {
             NoteLab.get(getApplicationContext()).deleteNote(note);
+
             ToastHelper.toastCenter(
                     getApplicationContext(),
                     "Note was successfully deleted!"
@@ -175,6 +185,7 @@ public class NoteActivity extends AppCompatActivity {
             finish();
         });
         builder.setNegativeButton("No", (dialog, id) -> {
+            dialog.dismiss();
         });
         builder.show();
     }
@@ -218,7 +229,7 @@ public class NoteActivity extends AppCompatActivity {
         textView.setOnLongClickListener(view -> {
             PopupMenu menu = new PopupMenu(view.getContext(), view);
             menu.getMenu().add("Delete");
-            menu.getMenu().add("Open");
+            menu.getMenu().add("View");
             menu.setOnMenuItemClickListener(item -> {
                 if (item.getTitle().equals("Delete")) {
                     boolean res = img.delete();
@@ -227,11 +238,10 @@ public class NoteActivity extends AppCompatActivity {
                     }
                     updatePhotoView();
                 }
-                if (item.getTitle().equals("Open")) {
-                    final Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.fromFile(img));
-                    intent.setType("image/*");
-                    startActivity(intent);
+                if (item.getTitle().equals("View")) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    ImageDisplayFragment fragment = ImageDisplayFragment.newInstance(img);
+                    fragment.show(fragmentManager, DIALOG_IMAGE);
                 }
                 return true;
             });
