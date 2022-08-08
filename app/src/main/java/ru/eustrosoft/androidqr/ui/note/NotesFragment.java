@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -20,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,17 +30,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteLab;
+import ru.eustrosoft.androidqr.ui.modals.DatePickerFragment;
 import ru.eustrosoft.androidqr.util.text.KnuthMorrisSearch;
-import ru.eustrosoft.androidqr.util.text.Searcher;
-import ru.eustrosoft.androidqr.util.text.TextSearchParameters;
+import ru.eustrosoft.androidqr.util.text.TextSearchDecorator;
 
 public class NotesFragment extends Fragment {
+    private static final String ARG_START_DATE = "ARG_START_DATE";
+    private static final String ARG_END_DATE = "ARG_END_DATE";
     private List<Note> selectedNotes;
     private RecyclerView mNoteRecycleViewer;
     private NoteAdapter mAdapter;
@@ -66,27 +72,63 @@ public class NotesFragment extends Fragment {
             case R.id.action_search_notes:
                 showSearchWindow();
                 return true;
+            case R.id.action_filter_notes:
+                showFilterWindow();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void showFilterWindow() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Filter notes");
+        View alertDialogView = getLayoutInflater().inflate(R.layout.dialog_filter, null);
+        Button startDateButton = alertDialogView.findViewById(R.id.filter_start_date);
+        Button endDateButton = alertDialogView.findViewById(R.id.filter_end_date);
+        startDateButton.setOnClickListener((view) -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            DatePickerFragment fragment = DatePickerFragment.newInstance(new Date());
+            fragment.show(fragmentManager, ARG_START_DATE);
+        });
+        endDateButton.setOnClickListener((view) -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            DatePickerFragment fragment = DatePickerFragment.newInstance(new Date());
+            fragment.show(fragmentManager, ARG_END_DATE);
+        });
+        builder.setView(alertDialogView);
+        builder.setPositiveButton("Filter", (dialog, which) -> {
+
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    private List<Note> getFilteredNotesByDate(Date startDate, Date endDate) {
+        return NoteLab.get(getContext()).getNotes()
+                .stream()
+                .filter(note -> {
+                    return note.getDate().after(startDate) && note.getDate().before(endDate);
+                })
+                .collect(Collectors.toList());
+    }
+
     private void showSearchWindow() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Search text");
-        final EditText input = new EditText(getContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
         View alertDialogView = getLayoutInflater().inflate(R.layout.dialog_search, null);
         CheckBox searchInTitle = alertDialogView.findViewById(R.id.search_in_titles);
         CheckBox searchInText = alertDialogView.findViewById(R.id.search_in_text);
         CheckBox ignoreCase = alertDialogView.findViewById(R.id.ignore_case);
         EditText searchedText = alertDialogView.findViewById(R.id.searched_string);
+        searchedText.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(alertDialogView);
         builder.setPositiveButton("Search", (dialog, which) -> {
             searchTextInNotes(
-                    new TextSearchParameters(
+                    new TextSearchDecorator(
                             ignoreCase.isChecked(),
-                            searchedText.getText().toString().toCharArray()
+                            searchedText.getText().toString().toCharArray(),
+                            new KnuthMorrisSearch()
                     ),
                     searchInTitle.isChecked(),
                     searchInText.isChecked()
@@ -185,19 +227,19 @@ public class NotesFragment extends Fragment {
     }
 
     private void searchTextInNotes(
-            TextSearchParameters parameters,
+            TextSearchDecorator decorator,
             boolean searchInTitle,
             boolean searchInText
     ) {
-        if (parameters == null) {
-            parameters = new TextSearchParameters();
+        if (decorator == null) {
+            decorator = new TextSearchDecorator();
         }
-        if (parameters.getSearchText() == null
-                || new String(parameters.getSearchText()).trim().length() == 0) {
+        if (decorator.getPatternToSearch() == null
+                || new String(decorator.getPatternToSearch()).trim().length() == 0) {
             updateUI();
             return;
         }
-        final Searcher textSearch = new KnuthMorrisSearch(parameters);
+        AtomicReference<TextSearchDecorator> lambdaDecorator = new AtomicReference<>(decorator);
         List<Note> notesToSearch = new ArrayList<>(NoteLab.get(getContext()).getNotes());
         try {
             selectedNotes = notesToSearch
@@ -205,14 +247,14 @@ public class NotesFragment extends Fragment {
                     .filter(note -> {
                         boolean passed = false;
                         if (searchInTitle) {
-                            int res = textSearch.searchInText(
+                            int res = lambdaDecorator.get().searchInText(
                                     note.getTitle().toCharArray()
                             );
                             if (res >= 0)
                                 passed = true;
                         }
                         if (searchInText) {
-                            int res = textSearch.searchInText(
+                            int res = lambdaDecorator.get().searchInText(
                                     note.getText().toCharArray()
                             );
                             if (res >= 0)

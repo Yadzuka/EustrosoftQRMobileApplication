@@ -1,14 +1,9 @@
 package ru.eustrosoft.androidqr.util.text;
 
 public class KnuthMorrisSearch implements Searcher {
-    private TextSearchParameters parameters;
-
-    public KnuthMorrisSearch(TextSearchParameters parameters) {
-        this.parameters = parameters;
-    }
 
     public KnuthMorrisSearch() {
-        this.parameters = new TextSearchParameters();
+
     }
 
     private int[] KnuthMorrisPrattShift(char[] pattern) {
@@ -40,19 +35,17 @@ public class KnuthMorrisSearch implements Searcher {
     }
 
     @Override
-    public int searchInText(char[] text) {
-        char[] pattern = parameters.getSearchText();
-        if (parameters.isIgnoreCase()) {
+    public int searchInText(char[] text, TextSearchDecorator decorator) {
+        char[] pattern = decorator.getPatternToSearch();
+        if (decorator.isIgnoreCase()) {
             pattern = new String(pattern).toLowerCase().toCharArray();
             text = new String(text).toLowerCase().toCharArray();
         }
-        int patternSize = pattern.length; // m
-        int textSize = text.length; // n
+        int patternSize = pattern.length;
+        int textSize = text.length;
 
         int i = 0, j = 0;
-
         int[] shift = KnuthMorrisPrattShift(pattern);
-
         while ((i + patternSize) <= textSize) {
             while (text[i + j] == pattern[j]) {
                 j += 1;

@@ -7,13 +7,13 @@
         android:enabled="true"
         android:icon="?android:attr/actionModeWebSearchDrawable"
         android:orderInCategory="0"
-        android:title="@string/action_send_note"
+        android:title="search"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/action_filter_notes"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:orderInCategory="0"
-        android:title="@string/action_send_note"
+        android:title="filter"
         app:showAsAction="ifRoom|withText" />
 </menu>

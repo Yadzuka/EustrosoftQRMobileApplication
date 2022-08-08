@@ -1,19 +1,12 @@
 package ru.eustrosoft.androidqr.util.text;
 
 public class SimpleTextSearch implements Searcher {
-    private TextSearchParameters parameters;
-
-    public SimpleTextSearch(TextSearchParameters parameters) {
-        this.parameters = parameters;
-    }
-
     public SimpleTextSearch() {
-        this.parameters = new TextSearchParameters();
     }
 
     @Override
-    public int searchInText(char[] text) {
-        char[] pattern = parameters.getSearchText();
+    public int searchInText(char[] text, TextSearchDecorator decorator) {
+        char[] pattern = decorator.getPatternToSearch();
         int patternSize = pattern.length;
         int textSize = text.length;
 
