@@ -40,6 +40,7 @@
     <string name="start_scan_button">Сканировать</string>
     <string name="insert_item_button">Вставить текст</string>
     <string name="scan_from_gallery_button">Сканировать фотографию из галлереи</string>
+    <string name="request">Do Request localhost:8081/products</string>
 
     <!-- Basics -->
     <string name="label_search">Search!</string>

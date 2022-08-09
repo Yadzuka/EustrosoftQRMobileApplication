@@ -50,5 +50,18 @@
             android:textSize="20sp"
             tools:ignore="MissingConstraints,SpUsage" />
 
+        <Button
+            android:id="@+id/request"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/gradient_button"
+            android:drawableStart="@drawable/ic_menu_database"
+            android:drawableTint="@color/black"
+            android:padding="25dp"
+            android:text="@string/request"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints,SpUsage" />
+
     </LinearLayout>
 </ScrollView>
