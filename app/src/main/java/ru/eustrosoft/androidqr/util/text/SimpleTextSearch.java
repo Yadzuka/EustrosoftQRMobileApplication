@@ -1,6 +1,6 @@
 package ru.eustrosoft.androidqr.util.text;
 
-public class SimpleTextSearch implements Searcher {
+public class SimpleTextSearch implements TextSearch {
     public SimpleTextSearch() {
     }
 

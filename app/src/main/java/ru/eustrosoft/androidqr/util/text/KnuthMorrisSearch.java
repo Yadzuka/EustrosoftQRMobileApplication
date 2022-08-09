@@ -1,6 +1,6 @@
 package ru.eustrosoft.androidqr.util.text;
 
-public class KnuthMorrisSearch implements Searcher {
+public class KnuthMorrisSearch implements TextSearch {
 
     public KnuthMorrisSearch() {
 

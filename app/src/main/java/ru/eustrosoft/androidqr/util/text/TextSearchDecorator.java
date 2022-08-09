@@ -1,30 +1,30 @@
 package ru.eustrosoft.androidqr.util.text;
 
 public class TextSearchDecorator {
-    private Searcher searcher;
+    private TextSearch textSearch;
     private boolean ignoreCase;
     private char[] patternToSearch;
 
     public TextSearchDecorator() {
-        this.searcher = new KnuthMorrisSearch();
+        this.textSearch = new KnuthMorrisSearch();
         this.ignoreCase = false;
         this.patternToSearch = new char[0];
     }
 
     public TextSearchDecorator(boolean ignoreCase, char[] patternToSearch) {
-        this.searcher = new KnuthMorrisSearch();
+        this.textSearch = new KnuthMorrisSearch();
         this.ignoreCase = ignoreCase;
         this.patternToSearch = patternToSearch;
     }
 
-    public TextSearchDecorator(boolean ignoreCase, char[] patternToSearch, Searcher searcher) {
-        this.searcher = searcher;
+    public TextSearchDecorator(boolean ignoreCase, char[] patternToSearch, TextSearch textSearchEngine) {
+        this.textSearch = textSearchEngine;
         this.ignoreCase = ignoreCase;
         this.patternToSearch = patternToSearch;
     }
 
     public int searchInText(char[] text) {
-        return this.searcher.searchInText(text, this);
+        return this.textSearch.searchInText(text, this);
     }
 
     public boolean isIgnoreCase() {
@@ -43,11 +43,11 @@ public class TextSearchDecorator {
         this.patternToSearch = patternToSearch;
     }
 
-    public Searcher getSearcher() {
-        return searcher;
+    public TextSearch getTextSearch() {
+        return textSearch;
     }
 
-    public void setSearcher(Searcher searcher) {
-        this.searcher = searcher;
+    public void setTextSearch(TextSearch textSearch) {
+        this.textSearch = textSearch;
     }
 }

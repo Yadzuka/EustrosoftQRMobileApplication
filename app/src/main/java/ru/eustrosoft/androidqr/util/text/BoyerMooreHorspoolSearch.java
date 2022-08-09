@@ -1,6 +1,6 @@
 package ru.eustrosoft.androidqr.util.text;
 
-public class BoyerMooreHorspoolSearch implements Searcher {
+public class BoyerMooreHorspoolSearch implements TextSearch {
 
     public BoyerMooreHorspoolSearch() {
     }
