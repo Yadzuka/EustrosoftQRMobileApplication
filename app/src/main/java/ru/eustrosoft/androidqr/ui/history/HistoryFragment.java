@@ -140,9 +140,9 @@ public class HistoryFragment extends Fragment {
         public ScanItemHolder(@NonNull View itemView) {
             super(itemView);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_scan_item_text_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_scan_item_date_text_view);
-            mTimeTextView = (TextView) itemView.findViewById(R.id.list_item_scan_item_time_text_view);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.comment_username);
+            mDateTextView = (TextView) itemView.findViewById(R.id.comment_text);
+            mTimeTextView = (TextView) itemView.findViewById(R.id.comment_date);
             mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.scan_item);
 
             mRelativeLayout.setOnClickListener(new View.OnClickListener() {

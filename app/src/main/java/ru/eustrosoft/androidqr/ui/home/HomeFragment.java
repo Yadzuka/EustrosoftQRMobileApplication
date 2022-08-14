@@ -1,7 +1,6 @@
 package ru.eustrosoft.androidqr.ui.home;
 
 import android.Manifest;
-import android.accounts.NetworkErrorException;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -18,24 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.atomic.AtomicReference;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.ScanItem;
 import ru.eustrosoft.androidqr.model.ScanItemLab;
 import ru.eustrosoft.androidqr.ui.qr.ScannerActivity;
-import ru.eustrosoft.androidqr.util.inet.HttpMethod;
-import ru.eustrosoft.androidqr.util.inet.HttpRequest;
-import ru.eustrosoft.androidqr.util.inet.HttpResponse;
 import ru.eustrosoft.androidqr.util.qr.QRDecoder;
 import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
@@ -47,7 +39,6 @@ public class HomeFragment extends Fragment {
     private Button scanButton;
     private Button insertButton;
     private Button galleryPickButton;
-    private Button requestButton;
 
     private ClipboardManager clipboardManager;
     private ClipData clipData;
@@ -58,7 +49,6 @@ public class HomeFragment extends Fragment {
         scanButton = root.findViewById(R.id.start_scan);
         insertButton = root.findViewById(R.id.insert_text);
         galleryPickButton = root.findViewById(R.id.scan_from_gallery);
-        requestButton = root.findViewById(R.id.request);
         clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
         scanButton.setOnClickListener(v -> {
@@ -88,34 +78,6 @@ public class HomeFragment extends Fragment {
                     Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             );
             startActivityForResult(i, RESULT_LOAD_IMAGE);
-        });
-
-        AtomicReference<String> obj = new AtomicReference<>("");
-        requestButton.setOnClickListener(v -> {
-            try {
-                HttpRequest request =
-                        HttpRequest.builder()
-                                .url(new URL("http://192.168.3.18:8081/users"))
-                                .method(HttpMethod.GET)
-                                .build();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Add new qr text to history");
-                final TextView input = new TextView(getContext());
-                boolean isOk = false;
-                String responseStr = "";
-                HttpResponse response = request.request();
-                responseStr = response.getBody();
-                isOk = response.isOk();
-                obj.set(responseStr);
-                input.setText(responseStr + isOk);
-                getActivity().runOnUiThread(() -> {
-                    builder.setView(input);
-                    builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-                    builder.show();
-                });
-            } catch (MalformedURLException | NetworkErrorException | InterruptedException e) {
-                e.printStackTrace();
-            }
         });
         return root;
     }

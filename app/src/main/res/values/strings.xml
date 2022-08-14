@@ -40,7 +40,7 @@
     <string name="start_scan_button">Сканировать</string>
     <string name="insert_item_button">Вставить текст</string>
     <string name="scan_from_gallery_button">Сканировать фотографию из галлереи</string>
-    <string name="request">Do Request localhost:8081/products</string>
+    <string name="request">Send your message to developers!</string>
 
     <!-- Basics -->
     <string name="label_search">Search!</string>
@@ -64,7 +64,7 @@
     <string name="label_scan_item_eustrosoft_reference">It seems like it is Eustrosoft reference, you can try to search it in the System:</string>
 
     <!-- Preference Titles -->
-    <string name="application_log_header">История обновлений приложения</string>
+    <string name="application_host">Сервер приложения</string>
     <string name="scanner_header">Настройки qr сканера</string>
     <string name="account_header">Аккаунт</string>
 
@@ -110,6 +110,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_database">Database</string>
     <string name="menu_database">Database</string>
+    <string name="menu_chat">Chat</string>
     <string name="database_url_hint">Database Url</string>
     <string name="database_user_hint">Database User</string>
     <string name="database_password_hint">Database Password</string>
@@ -117,4 +118,5 @@
     <string name="execute_query_button">Connect To Database</string> <!-- TODO: change -->
     <string name="query_text_view">Here will be present connection result.</string>
     <string name="dialog_image_title">Image Viewer</string>
+    <string name="refresh">refresh</string>
 </resources>

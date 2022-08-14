@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_notes"
             app:destination="@id/nav_notes" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_chat"
+            app:destination="@id/nav_chat" />
     </fragment>
 
     <fragment
@@ -47,4 +50,10 @@
         android:name="ru.eustrosoft.androidqr.ui.database.DatabaseFragment"
         android:label="@string/menu_database"
         tools:layout="@layout/fragment_database" />
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="ru.eustrosoft.androidqr.ui.comments.CommentsFragment"
+        android:label="@string/menu_chat"
+        tools:layout="@layout/fragment_comments" />
 </navigation>

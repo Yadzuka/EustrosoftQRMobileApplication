@@ -16,9 +16,23 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/application_log_header">
-
-
+    <PreferenceCategory app:title="@string/application_host">
+        <EditTextPreference
+            app:icon="@drawable/ic_menu_database"
+            app:key="username"
+            app:title="Username" />
+        <EditTextPreference
+            app:icon="@drawable/ic_menu_database"
+            app:key="cookie"
+            app:title="Server cookie" />
+        <EditTextPreference
+            app:icon="@drawable/ic_menu_database"
+            app:key="host"
+            app:title="Server host" />
+        <EditTextPreference
+            app:icon="@drawable/ic_menu_database"
+            app:key="port"
+            app:title="Server port" />
     </PreferenceCategory>
 
 </PreferenceScreen>

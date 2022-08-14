@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/list_item_scan_item_text_text_view"
+        android:id="@+id/comment_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="4dp"
@@ -14,20 +14,20 @@
         tools:text="Scan Item Text" />
 
     <TextView
-        android:id="@+id/list_item_scan_item_date_text_view"
+        android:id="@+id/comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/list_item_scan_item_text_text_view"
+        android:layout_below="@id/comment_username"
         android:padding="4dp"
         tools:text="Scan Item Date" />
 
     <TextView
-        android:id="@+id/list_item_scan_item_time_text_view"
+        android:id="@+id/comment_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        android:layout_below="@id/list_item_scan_item_text_text_view"
-        android:layout_toEndOf="@id/list_item_scan_item_date_text_view"
+        android:layout_below="@id/comment_username"
+        android:layout_toEndOf="@id/comment_text"
         tools:text="Scan Item Time" />
 
 </RelativeLayout>
