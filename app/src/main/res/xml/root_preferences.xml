@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory app:title="@string/account_header">
 
@@ -33,6 +34,10 @@
             app:icon="@drawable/ic_menu_database"
             app:key="port"
             app:title="Server port" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="comments_notifications"
+            app:title="Comments Notifications" />
     </PreferenceCategory>
 
 </PreferenceScreen>

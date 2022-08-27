@@ -27,6 +27,10 @@
         at %3$s|%4$s
     </string>
 
+    <string name="channel_name">ChannelName</string>
+    <string name="channel_description">ChannelDescription</string>
+    <string name="comment_channel_id">CommentNotification</string>
+
     <string name="menu_home">Home</string>
     <string name="menu_history">History</string>
     <string name="menu_qrencoder">QR Encoder</string>

@@ -55,5 +55,9 @@
         android:id="@+id/nav_chat"
         android:name="ru.eustrosoft.androidqr.ui.comments.CommentsFragment"
         android:label="@string/menu_chat"
-        tools:layout="@layout/fragment_comments" />
+        tools:layout="@layout/fragment_comments">
+        <action
+            android:id="@+id/action_nav_chat_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 </navigation>

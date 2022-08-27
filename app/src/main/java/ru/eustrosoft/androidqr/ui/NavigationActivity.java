@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -21,8 +22,10 @@ import ru.eustrosoft.androidqr.ui.about.ApplicationLogActivity;
 import ru.eustrosoft.androidqr.ui.settings.SettingsActivity;
 
 public class NavigationActivity extends AppCompatActivity {
+    public static final String FRAGMENT_ID = "fragment";
 
     private AppBarConfiguration mAppBarConfiguration;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class NavigationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_notes, R.id.nav_database, R.id.nav_chat
@@ -42,6 +45,30 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            final String fromNotification = extras.getString(FRAGMENT_ID);
+            if (fromNotification.equals("comments")) {
+                // TODO
+//                CommentsFragment commentsFragment = new CommentsFragment();
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.nav_host_fragment, commentsFragment)
+//                        .addToBackStack(null)
+//                        .commit();
+            }
+        }
     }
 
     @Override
@@ -62,6 +89,11 @@ public class NavigationActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

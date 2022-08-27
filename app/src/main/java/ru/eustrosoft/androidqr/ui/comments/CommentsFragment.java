@@ -28,28 +28,29 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import ru.eustrosoft.androidqr.R;
+import ru.eustrosoft.androidqr.service.CommentsAlarmReceiver;
 import ru.eustrosoft.androidqr.util.inet.HttpMethod;
 import ru.eustrosoft.androidqr.util.inet.HttpRequest;
 import ru.eustrosoft.androidqr.util.inet.HttpResponse;
+import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 
 
 public class CommentsFragment extends Fragment {
-    private RecyclerView mScanItemRecyclerView;
-    private CommentItemAdapter mAdapter;
+    private RecyclerView mCommentsRecycleView;
+    private CommentItemAdapter mCommentsAdapter;
     private EditText commentEditText;
     private Button commentSendButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_comments, container, false);
-        mScanItemRecyclerView = root.findViewById(R.id.comments_viewer);
-        mScanItemRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mCommentsRecycleView = root.findViewById(R.id.comments_viewer);
+        mCommentsRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         commentEditText = root.findViewById(R.id.comment_edit_text);
         commentSendButton = root.findViewById(R.id.comment_send_button);
         commentSendButton.setOnClickListener(view -> {
@@ -60,12 +61,12 @@ public class CommentsFragment extends Fragment {
                 boolean success = sendComment(user, comment);
                 if (success) {
                     commentEditText.setText("");
+                    updateUI();
                 }
             }
-            updateUI();
         });
         updateUI();
-        mScanItemRecyclerView.getAdapter().notifyItemMoved(0, 5);
+        mCommentsRecycleView.getAdapter().notifyItemMoved(0, 5);
         return root;
     }
 
@@ -124,7 +125,8 @@ public class CommentsFragment extends Fragment {
             HttpResponse response = request.request();
             return response.isOk();
         } catch (Exception ex) {
-
+            ToastHelper.toastCenter(getContext(), ex.getMessage());
+            System.err.println(ex.getMessage());
         }
         return false;
     }
@@ -134,15 +136,15 @@ public class CommentsFragment extends Fragment {
         if (comments == null) {
             comments = new ArrayList<>();
         }
-        Collections.reverse(comments);
 
-        if (mAdapter == null) {
-            mAdapter = new CommentItemAdapter(comments);
-            mScanItemRecyclerView.setAdapter(mAdapter);
+        if (mCommentsAdapter == null) {
+            mCommentsAdapter = new CommentItemAdapter(comments);
+            mCommentsRecycleView.setAdapter(mCommentsAdapter);
         } else {
-            mAdapter.setScanItems(comments);
-            mAdapter.notifyDataSetChanged();
+            mCommentsAdapter.setScanItems(comments);
+            mCommentsAdapter.notifyDataSetChanged();
         }
+        mCommentsRecycleView.scrollToPosition(comments.size() - 1);
     }
 
     private List<Comment> getComments() {
@@ -169,12 +171,17 @@ public class CommentsFragment extends Fragment {
                             new Date(object.getLong("commentDate"))
                     ));
                 }
+                updateReceiveDateForNotifications(comments.get(comments.size() - 1));
                 return comments;
             }
         } catch (NetworkErrorException | InterruptedException | JSONException | IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void updateReceiveDateForNotifications(Comment comment) {
+        CommentsAlarmReceiver.lastMessageDate = comment.getDate().getTime();
     }
 
     private String getDate(Comment mComment) {

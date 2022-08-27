@@ -17,6 +17,8 @@ public class HttpRequest {
     private HttpContentType contentType = HttpContentType.APPLICATION_JSON;
     private String body = "";
     private Map<String, String> headers;
+    private int connectTimeout = 10_000;
+    private int readTimeout = 10_000;
 
     private HttpRequest() {
 
@@ -38,6 +40,8 @@ public class HttpRequest {
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod(httpMethod.name());
                 urlConnection.setDoInput(true);
+                urlConnection.setConnectTimeout(connectTimeout);
+                urlConnection.setReadTimeout(readTimeout);
                 if (headers != null) {
                     for (Map.Entry<String, String> entry : headers.entrySet()) {
                         urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
@@ -92,6 +96,16 @@ public class HttpRequest {
             return this;
         }
 
+        public HttpRequestBuilder connectTimeout(int timeout) {
+            httpRequest.connectTimeout = timeout;
+            return this;
+        }
+
+        public HttpRequestBuilder readTimeout(int timeout) {
+            httpRequest.readTimeout = timeout;
+            return this;
+        }
+
         public HttpRequestBuilder contentType(HttpContentType contentType) {
             httpRequest.contentType = contentType;
             return this;
@@ -109,15 +123,6 @@ public class HttpRequest {
 
         public HttpRequest build() {
             return this.httpRequest;
-        }
-    }
-
-    class Threader implements Runnable {
-
-
-        @Override
-        public void run() {
-
         }
     }
 }

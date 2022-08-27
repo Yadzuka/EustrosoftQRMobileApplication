@@ -20,7 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.about.AboutActivity" />
+
+        <receiver
+            android:name="ru.eustrosoft.androidqr.service.CommentsAlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -32,6 +36,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".ui.about.AboutActivity" />
         <activity android:name=".ui.about.ApplicationLogItem" />
         <activity android:name=".ui.browser.BrowserActivity" />
         <activity
