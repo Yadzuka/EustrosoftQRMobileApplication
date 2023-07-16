@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ru.eustrosoft.androidqr">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -20,11 +21,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.settings.ProfilesActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.settings.SettingsActivity" />
+        </activity>
 
         <receiver
-            android:name="ru.eustrosoft.androidqr.service.CommentsAlarmReceiver"
+            android:name=".service.CommentsAlarmReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="Instantiatable" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

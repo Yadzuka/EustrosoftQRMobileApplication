@@ -20,7 +20,7 @@ import java.util.List;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.ScanItem;
-import ru.eustrosoft.androidqr.model.ScanItemLab;
+import ru.eustrosoft.androidqr.model.ScanItemDAO;
 
 
 public class HistoryFragment extends Fragment {
@@ -43,7 +43,7 @@ public class HistoryFragment extends Fragment {
         if (savedInstanceState != null)
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
 
-        if (ScanItemLab.get(getActivity()).getScanItems().size() == 0)
+        if (ScanItemDAO.get(getActivity()).getScanItems().size() == 0)
             mTextView.setVisibility(View.VISIBLE);
 
         updateUI();
@@ -72,8 +72,8 @@ public class HistoryFragment extends Fragment {
     }
 
     private void updateUI() {
-        ScanItemLab scanItemLab = ScanItemLab.get(getActivity());
-        List<ScanItem> scanItems = scanItemLab.getScanItems();
+        ScanItemDAO scanItemDAO = ScanItemDAO.get(getActivity());
+        List<ScanItem> scanItems = scanItemDAO.getScanItems();
         Collections.reverse(scanItems);
 
         if (mAdapter == null) {

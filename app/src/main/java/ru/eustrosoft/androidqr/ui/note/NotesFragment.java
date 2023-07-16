@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
-import ru.eustrosoft.androidqr.model.NoteLab;
+import ru.eustrosoft.androidqr.model.NoteDAO;
 import ru.eustrosoft.androidqr.ui.modals.DatePickerFragment;
 import ru.eustrosoft.androidqr.util.text.KnuthMorrisSearch;
 import ru.eustrosoft.androidqr.util.text.TextSearchDecorator;
@@ -105,7 +105,7 @@ public class NotesFragment extends Fragment {
     }
 
     private List<Note> getFilteredNotesByDate(Date startDate, Date endDate) {
-        return NoteLab.get(getContext()).getNotes()
+        return NoteDAO.get(getContext()).getNotes()
                 .stream()
                 .filter(note -> {
                     return note.getDate().after(startDate) && note.getDate().before(endDate);
@@ -166,8 +166,8 @@ public class NotesFragment extends Fragment {
     }
 
     private List<Note> getDBNotes() {
-        NoteLab noteLab = NoteLab.get(getActivity());
-        return noteLab.getNotes();
+        NoteDAO noteDAO = NoteDAO.get(getActivity());
+        return noteDAO.getNotes();
     }
 
     private void updateUI() {
@@ -240,7 +240,7 @@ public class NotesFragment extends Fragment {
             return;
         }
         AtomicReference<TextSearchDecorator> lambdaDecorator = new AtomicReference<>(decorator);
-        List<Note> notesToSearch = new ArrayList<>(NoteLab.get(getContext()).getNotes());
+        List<Note> notesToSearch = new ArrayList<>(NoteDAO.get(getContext()).getNotes());
         try {
             selectedNotes = notesToSearch
                     .parallelStream()
@@ -317,7 +317,7 @@ public class NotesFragment extends Fragment {
                 menu.getMenu().add("Delete");
                 menu.setOnMenuItemClickListener(item -> {
                     if (item.getTitle().equals("Delete")) {
-                        NoteLab.get(getContext()).deleteNote(mNote);
+                        NoteDAO.get(getContext()).deleteNote(mNote);
                         updateUI();
                     }
                     if (item.getTitle().equals("Open")) {

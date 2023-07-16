@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="application_log_title">
+        <item>Версия 0.10</item>
         <item>Версия 0.9</item>
         <item>Версия 0.8</item>
         <item>Версия 0.7</item>
@@ -12,6 +13,10 @@
         <item>Версия 0.1</item>
     </string-array>
     <string-array name="application_log_text">
+        <item>
+            - Исправление для вылета приложения при открытии чата
+            \n - Добавлены профили, используемые для подключения к сервисам Eustrosoft
+        </item>
         <item>
             - Исправления
             \n - Добавлены уведомления для чата, настройка для уведомлений

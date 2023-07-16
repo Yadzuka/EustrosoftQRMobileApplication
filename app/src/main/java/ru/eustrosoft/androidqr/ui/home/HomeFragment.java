@@ -26,7 +26,7 @@ import java.io.FileNotFoundException;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.ScanItem;
-import ru.eustrosoft.androidqr.model.ScanItemLab;
+import ru.eustrosoft.androidqr.model.ScanItemDAO;
 import ru.eustrosoft.androidqr.ui.qr.ScannerActivity;
 import ru.eustrosoft.androidqr.util.qr.QRDecoder;
 import ru.eustrosoft.androidqr.util.ui.ToastHelper;
@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment {
     private void addScanItem(String text) {
         ScanItem newItem = new ScanItem();
         newItem.setText(text);
-        ScanItemLab.get(getContext()).addScanItem(
+        ScanItemDAO.get(getContext()).addScanItem(
                 newItem
         );
     }

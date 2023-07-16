@@ -42,7 +42,7 @@ import java.util.UUID;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
-import ru.eustrosoft.androidqr.model.NoteLab;
+import ru.eustrosoft.androidqr.model.NoteDAO;
 import ru.eustrosoft.androidqr.ui.modals.ImageDisplayFragment;
 import ru.eustrosoft.androidqr.ui.settings.SettingsActivity;
 import ru.eustrosoft.androidqr.util.DateUtil;
@@ -150,11 +150,11 @@ public class NoteActivity extends AppCompatActivity {
 
         UUID noteId = (UUID) getIntent().getSerializableExtra(EXTRA_NOTE_ID);
         if (noteId != null) {
-            note = NoteLab.get(this).getNote(noteId);
+            note = NoteDAO.get(this).getNote(noteId);
             showNoteData(note);
         } else {
             note = new Note();
-            NoteLab.get(getApplicationContext()).addNote(note);
+            NoteDAO.get(getApplicationContext()).addNote(note);
         }
         updatePhotoView(note);
     }
@@ -167,7 +167,7 @@ public class NoteActivity extends AppCompatActivity {
 
     private void updatePhotoDataAndView() {
         setDataToNote(note);
-        NoteLab.get(getApplicationContext()).updateNote(note);
+        NoteDAO.get(getApplicationContext()).updateNote(note);
         updatePhotoView(note);
     }
 
@@ -176,7 +176,7 @@ public class NoteActivity extends AppCompatActivity {
         builder.setTitle("Are you sure you want to delete this note?");
         builder.setMessage("");
         builder.setPositiveButton("Yes", (dialog, id) -> {
-            NoteLab.get(getApplicationContext()).deleteNote(note);
+            NoteDAO.get(getApplicationContext()).deleteNote(note);
 
             ToastHelper.toastCenter(
                     getApplicationContext(),
@@ -191,7 +191,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void updatePhotoView(Note note) {
-        File imageDirectory = NoteLab.get(getApplicationContext()).getPhotosDirectory(note);
+        File imageDirectory = NoteDAO.get(getApplicationContext()).getPhotosDirectory(note);
         if (imageDirectory == null) {
             return;
         }
@@ -292,10 +292,10 @@ public class NoteActivity extends AppCompatActivity {
             Note note = new Note(UUID.fromString(noteId));
             note.setTitle(titleTextView.getText().toString());
             note.setText(textTextView.getText().toString());
-            NoteLab.get(getApplicationContext()).updateNote(note);
+            NoteDAO.get(getApplicationContext()).updateNote(note);
             toastCenter(getApplicationContext(), NOTE_CREATED);
         } else {
-            NoteLab.get(getApplicationContext()).updateNote(note);
+            NoteDAO.get(getApplicationContext()).updateNote(note);
             toastCenter(getApplicationContext(), NOTE_UPDATED);
         }
     }
@@ -340,7 +340,7 @@ public class NoteActivity extends AppCompatActivity {
 
     private File createPhotoPathAndGetPath(Note note) {
         return new File(
-                NoteLab.get(getApplicationContext()).getPhotosDirectory(note).getAbsolutePath(),
+                NoteDAO.get(getApplicationContext()).getPhotosDirectory(note).getAbsolutePath(),
                 String.format("%s.jpg", new SimpleDateFormat("dd:MM_HH:mm:ss").format(new Date()))
         );
     }
@@ -350,7 +350,7 @@ public class NoteActivity extends AppCompatActivity {
         Note note = new Note(noteId);
         note.setTitle(title);
         note.setText(text);
-        NoteLab.get(context).addNote(note);
+        NoteDAO.get(context).addNote(note);
         return noteId.toString();
     }
 
@@ -358,7 +358,7 @@ public class NoteActivity extends AppCompatActivity {
         if (note == null) {
             return;
         }
-        if (!NoteLab.get(getApplicationContext()).getPhotosDirectory(note).exists())
+        if (!NoteDAO.get(getApplicationContext()).getPhotosDirectory(note).exists())
             return;
         updatePhotoView(note);
     }
@@ -367,7 +367,7 @@ public class NoteActivity extends AppCompatActivity {
         if (note == null)
             return;
 
-        File imageDirectory = NoteLab.get(getApplicationContext()).getPhotosDirectory(note);
+        File imageDirectory = NoteDAO.get(getApplicationContext()).getPhotosDirectory(note);
         if (imageDirectory == null) {
             return;
         }
@@ -410,6 +410,6 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void deleteNote(Context context, Note note) {
-        NoteLab.get(context).deleteNote(note);
+        NoteDAO.get(context).deleteNote(note);
     }
 }

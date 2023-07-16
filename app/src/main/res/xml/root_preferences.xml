@@ -40,4 +40,12 @@
             app:title="Comments Notifications" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/profiles_header">
+
+        <Preference
+            app:key="profiles"
+            app:title="@string/profiles_title" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

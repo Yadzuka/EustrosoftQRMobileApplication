@@ -37,7 +37,7 @@ import java.util.UUID;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.ScanItem;
-import ru.eustrosoft.androidqr.model.ScanItemLab;
+import ru.eustrosoft.androidqr.model.ScanItemDAO;
 import ru.eustrosoft.androidqr.util.StartUpManager;
 
 public class ScannerActivity extends Activity {
@@ -107,7 +107,7 @@ public class ScannerActivity extends Activity {
         UUID scanItemId = UUID.randomUUID();
         scanItem = new ScanItem(scanItemId);
         scanItem.setText(text);
-        ScanItemLab.get(getApplicationContext()).addScanItem(scanItem);
+        ScanItemDAO.get(getApplicationContext()).addScanItem(scanItem);
     }
 
     private void init() {

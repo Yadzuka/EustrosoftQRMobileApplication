@@ -56,11 +56,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
-            if (preference.getKey().equals("comments_notifications")) {
+            if (preference.getKey().equals("comments_notifications")) { // TODO
                 SwitchPreferenceCompat commentsNotification = (SwitchPreferenceCompat) preference;
                 AlarmManager manager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
                 Intent intent = new Intent(getContext(), CommentsAlarmReceiver.class);
-                intent.setAction("COMMENTS_NOTIFICATION");
+                intent.setAction("COMMENTS_NOTIFICATION"); // TODO
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
                 if (commentsNotification.isChecked()) {
                     manager.setInexactRepeating(
@@ -70,6 +70,11 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     manager.cancel(pendingIntent);
                 }
+            }
+
+            if (preference.getKey().equals("profiles")) {// TODO
+                Intent intent = new Intent(getContext(), ProfilesActivity.class);
+                startActivity(intent);
             }
 
             return super.onPreferenceTreeClick(preference);

@@ -70,6 +70,7 @@
     <!-- Preference Titles -->
     <string name="application_host">Сервер приложения</string>
     <string name="scanner_header">Настройки qr сканера</string>
+    <string name="profiles_header">Профили</string>
     <string name="account_header">Аккаунт</string>
 
     <!-- Messages Preferences -->
@@ -87,6 +88,7 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="bib_title">Включить вибрацию при сканировании</string>
+    <string name="profiles_title">Профили для подключения</string>
     <string name="account_title">Войти в аккаунт Eustrosoft</string>
     <string name="title_activity_notes">ScrollingActivity</string>
     <string name="about_text">
@@ -102,10 +104,7 @@
         \n\n
         И, да, исходный код этого проекта OpenSource, репозиторий находится <a href="https://github.com/Yadzuka/EustrosoftQRMobileApplication">здесь</a>
     </string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
+
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_note">NoteActivity</string>
     <string name="note_hint_title">Title</string>

@@ -122,7 +122,7 @@ public class CommentsFragment extends Fragment {
                             .method(HttpMethod.POST)
                             .body(object.toString())
                             .build();
-            HttpResponse response = request.request();
+            HttpResponse response = request.send();
             return response.isOk();
         } catch (Exception ex) {
             ToastHelper.toastCenter(getContext(), ex.getMessage());
@@ -132,7 +132,12 @@ public class CommentsFragment extends Fragment {
     }
 
     private void updateUI() {
-        List<Comment> comments = getComments();
+        List<Comment> comments = new ArrayList<>();
+        try {
+            comments.addAll(getComments());
+        } catch (Exception ex) {
+            ToastHelper.toastCenter(getContext(), "Exception while loading comments.");
+        }
         if (comments == null) {
             comments = new ArrayList<>();
         }
@@ -147,11 +152,11 @@ public class CommentsFragment extends Fragment {
         mCommentsRecycleView.scrollToPosition(comments.size() - 1);
     }
 
-    private List<Comment> getComments() {
+    private List<Comment> getComments() throws Exception {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String host = preferences.getString("host", "http://fudo.eustrosoft.org");
-        String port = preferences.getString("port", "20081");
-        String cookie = preferences.getString("cookie", "");
+        String host = preferences.getString("host", null);
+        String port = preferences.getString("port", null);
+        String cookie = preferences.getString("cookie", null);
         try {
             List<Comment> comments = new ArrayList<>();
             HttpRequest request =
@@ -160,7 +165,7 @@ public class CommentsFragment extends Fragment {
                             .headers(Map.of("Cookie", cookie))
                             .method(HttpMethod.GET)
                             .build();
-            HttpResponse response = request.request();
+            HttpResponse response = request.send();
             if (response.isOk()) {
                 JSONArray jsonArray = new JSONArray(response.getBody());
                 for (int i = 0; i < jsonArray.length(); i++) {

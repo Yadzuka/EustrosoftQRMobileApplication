@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.ScanItem;
-import ru.eustrosoft.androidqr.model.ScanItemLab;
+import ru.eustrosoft.androidqr.model.ScanItemDAO;
 import ru.eustrosoft.androidqr.ui.browser.BrowserActivity;
 import ru.eustrosoft.androidqr.util.BitmapTextCreator;
 import ru.eustrosoft.androidqr.util.qr.QREncoder;
@@ -59,7 +59,7 @@ public class HistoryItemActivity extends AppCompatActivity {
 
         UUID scanItemId = (UUID) getIntent().getSerializableExtra(EXTRA_SCAN_ITEM_ID);
         if (scanItemId != null) {
-            ScanItem scanItem = ScanItemLab.get(this).getScanItem(scanItemId);
+            ScanItem scanItem = ScanItemDAO.get(this).getScanItem(scanItemId);
             showScanItemData(scanItem);
             try {
                 imageView.setImageBitmap(new QREncoder().createQRImage(256, scanItem.getText()));
@@ -112,7 +112,7 @@ public class HistoryItemActivity extends AppCompatActivity {
                     builder.setTitle("Are you sure you want to delete this history item?"); //TODO make text string
                     builder.setMessage("");
                     builder.setPositiveButton("Yes", (dialog, id) -> {
-                        ScanItemLab.get(v.getContext())
+                        ScanItemDAO.get(v.getContext())
                                 .deleteScanItem(scanItem);
                         ToastHelper.toastCenter(
                                 getApplicationContext(),

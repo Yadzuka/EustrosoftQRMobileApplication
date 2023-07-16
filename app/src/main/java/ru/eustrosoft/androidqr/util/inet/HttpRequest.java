@@ -28,7 +28,7 @@ public class HttpRequest {
         return new HttpRequestBuilder();
     }
 
-    public synchronized HttpResponse request() throws NetworkErrorException, InterruptedException {
+    public synchronized HttpResponse send() throws NetworkErrorException, InterruptedException {
         if (this.url == null) {
             throw new NetworkErrorException("URL is not set");
         }
