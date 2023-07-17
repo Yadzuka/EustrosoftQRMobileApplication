@@ -53,6 +53,7 @@ import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 import static ru.eustrosoft.androidqr.ui.qr.ScannerActivity.REQUEST_CODE;
 import static ru.eustrosoft.androidqr.util.DateUtil.getFormattedDate;
 import static ru.eustrosoft.androidqr.util.DateUtil.getFormattedTime;
+import static ru.eustrosoft.androidqr.util.text.TextUtil.getCroppedText;
 import static ru.eustrosoft.androidqr.util.ui.ToastHelper.toastCenter;
 
 public class NoteActivity extends AppCompatActivity {
@@ -152,9 +153,11 @@ public class NoteActivity extends AppCompatActivity {
         if (noteId != null) {
             note = NoteDAO.get(this).getNote(noteId);
             showNoteData(note);
+            setTitle(getCroppedText(note.getTitle(), 15, true));
         } else {
             note = new Note();
             NoteDAO.get(getApplicationContext()).addNote(note);
+            setTitle("New Note."); // TODO
         }
         updatePhotoView(note);
     }

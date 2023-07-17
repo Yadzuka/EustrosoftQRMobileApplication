@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -21,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +36,6 @@ import java.util.stream.Collectors;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Note;
 import ru.eustrosoft.androidqr.model.NoteDAO;
-import ru.eustrosoft.androidqr.ui.modals.DatePickerFragment;
 import ru.eustrosoft.androidqr.util.text.KnuthMorrisSearch;
 import ru.eustrosoft.androidqr.util.text.TextSearchDecorator;
 
@@ -72,37 +69,37 @@ public class NotesFragment extends Fragment {
             case R.id.action_search_notes:
                 showSearchWindow();
                 return true;
-            case R.id.action_filter_notes:
-                showFilterWindow();
-                return true;
+//            case R.id.action_filter_notes:
+//                showFilterWindow();
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void showFilterWindow() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Filter notes");
-        View alertDialogView = getLayoutInflater().inflate(R.layout.dialog_filter, null);
-        Button startDateButton = alertDialogView.findViewById(R.id.filter_start_date);
-        Button endDateButton = alertDialogView.findViewById(R.id.filter_end_date);
-        startDateButton.setOnClickListener((view) -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            DatePickerFragment fragment = DatePickerFragment.newInstance(new Date());
-            fragment.show(fragmentManager, ARG_START_DATE);
-        });
-        endDateButton.setOnClickListener((view) -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            DatePickerFragment fragment = DatePickerFragment.newInstance(new Date());
-            fragment.show(fragmentManager, ARG_END_DATE);
-        });
-        builder.setView(alertDialogView);
-        builder.setPositiveButton("Filter", (dialog, which) -> {
-
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
-    }
+//    private void showFilterWindow() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        builder.setTitle("Filter notes");
+//        View alertDialogView = getLayoutInflater().inflate(R.layout.dialog_filter, null);
+//        Button startDateButton = alertDialogView.findViewById(R.id.filter_start_date);
+//        Button endDateButton = alertDialogView.findViewById(R.id.filter_end_date);
+//        startDateButton.setOnClickListener((view) -> {
+//            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//            DatePickerFragment fragment = DatePickerFragment.newInstance(new Date());
+//            fragment.show(fragmentManager, ARG_START_DATE);
+//        });
+//        endDateButton.setOnClickListener((view) -> {
+//            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//            DatePickerFragment fragment = DatePickerFragment.newInstance(new Date());
+//            fragment.show(fragmentManager, ARG_END_DATE);
+//        });
+//        builder.setView(alertDialogView);
+//        builder.setPositiveButton("Filter", (dialog, which) -> {
+//            updateUI();
+//        });
+//        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+//        builder.show();
+//    }
 
     private List<Note> getFilteredNotesByDate(Date startDate, Date endDate) {
         return NoteDAO.get(getContext()).getNotes()

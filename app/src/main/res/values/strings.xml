@@ -122,4 +122,5 @@
     <string name="query_text_view">Here will be present connection result.</string>
     <string name="dialog_image_title">Image Viewer</string>
     <string name="refresh">refresh</string>
+    <string name="add_profile">add_profile</string>
 </resources>
