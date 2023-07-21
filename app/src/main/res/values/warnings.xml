@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="warning_profile_empty">
+        Profile name can not be empty
+    </string>
+
+    <string name="warning_profile_exists">
+        Profile with this name already exists!
+    </string>
+</resources>

@@ -27,6 +27,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import ru.eustrosoft.androidqr.R;
 import ru.eustrosoft.androidqr.model.Profile;
 import ru.eustrosoft.androidqr.model.ProfileDAO;
+import ru.eustrosoft.androidqr.util.ui.ToastHelper;
+
+import static ru.eustrosoft.androidqr.util.text.TextUtil.getChangedSymbolsText;
 
 public class ProfilesActivity extends AppCompatActivity {
     private List<Profile> profiles;
@@ -86,8 +89,8 @@ public class ProfilesActivity extends AppCompatActivity {
     }
 
     private void showAddProfileDialog() {
-        AtomicReference<String> name = new AtomicReference<>();
-        AtomicReference<String> password = new AtomicReference<>();
+        AtomicReference<String> name = new AtomicReference<>("");
+        AtomicReference<String> password = new AtomicReference<>("");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ProfilesActivity.this);
         builder.setTitle("Add new Profile");
@@ -123,14 +126,33 @@ public class ProfilesActivity extends AppCompatActivity {
             }
         });
         builder.setPositiveButton("Add", (dialog, which) -> {
-            if (!name.get().isEmpty()) {
+            if (name != null && !name.get().isEmpty()) {
                 Profile profile = new Profile();
                 profile.setName(name.get());
                 profile.setPassword(password.get());
-                ProfileDAO.get(getApplicationContext())
-                        .addProfile(profile);
+                ProfileDAO profileDAO = ProfileDAO.get(getApplicationContext());
+                Profile profileByName = profileDAO.getProfileByName(name.get());
+                if (profileByName != null) {
+                    ToastHelper.toastCenter(
+                            getApplicationContext(),
+                            getApplicationContext().getString(R.string.warning_profile_exists)
+                    );
+                    dialog.dismiss();
+                    return;
+                }
+                profileDAO.addProfile(profile);
+                updateUI();
+                ToastHelper.toastCenter(
+                        getApplicationContext(),
+                        getApplicationContext().getString(R.string.message_profile_added)
+                );
+                dialog.dismiss();
+            } else {
+                ToastHelper.toastCenter(
+                        getApplicationContext(),
+                        getApplicationContext().getString(R.string.warning_profile_empty)
+                );
             }
-            updateUI();
         });
         builder.setView(alertDialogView);
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -172,19 +194,36 @@ public class ProfilesActivity extends AppCompatActivity {
         private Profile profile;
         private TextView name;
         private TextView password;
+        private boolean passHidden = true;
         private int position;
 
         public ProfileHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.profile_name);
             password = itemView.findViewById(R.id.profile_password);
+            this.itemView.setOnClickListener(this.getPasswordHideAction());
         }
 
         public void bindProfile(Profile profile, int position) {
             this.profile = profile;
             this.position = position;
-            name.setText(this.profile.getName());
-            password.setText(this.profile.getPassword());
+            this.name.setText(this.profile.getName());
+            this.password.setText(
+                    getChangedSymbolsText(this.profile.getPassword(), "*", 12)
+            );
+
+        }
+
+        private View.OnClickListener getPasswordHideAction() {
+            return (v) -> {
+                if (passHidden) {
+                    this.password.setText(this.profile.getPassword());
+                    this.passHidden = false;
+                } else {
+                    this.password.setText(getChangedSymbolsText(this.profile.getPassword(), "*", 12));
+                    this.passHidden = true;
+                }
+            };
         }
     }
 }

@@ -110,4 +110,21 @@ public class ProfileDAO {
             cursor.close();
         }
     }
+
+    public Profile getProfileByName(String name) {
+        ProfileCursorWrapper cursor = queryProfiles(
+                ProfileTable.Cols.NAME + " = ? ",
+                new String[]{name}
+        );
+
+        try {
+            if (cursor.getCount() == 0)
+                return null;
+
+            cursor.moveToFirst();
+            return cursor.getProfile();
+        } finally {
+            cursor.close();
+        }
+    }
 }

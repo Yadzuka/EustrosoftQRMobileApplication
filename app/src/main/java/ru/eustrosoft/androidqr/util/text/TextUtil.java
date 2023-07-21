@@ -7,7 +7,7 @@ public final class TextUtil {
     }
 
     public static String getCroppedText(String text, int max, boolean needDots) {
-        if (text == null || text.isEmpty()) {
+        if (isEmptyString(text)) {
             return "";
         }
         StringBuilder builder = new StringBuilder();
@@ -17,5 +17,27 @@ public final class TextUtil {
             builder.append("...");
         }
         return builder.toString();
+    }
+
+    public static String getChangedSymbolsText(String text, String replacement, int cropLength) {
+        if (isEmptyString(text)) {
+            return "";
+        }
+        return getCroppedText(
+                text.replaceAll(".", replacement),
+                cropLength,
+                false
+        );
+    }
+
+    private static String getEmptyStringIfEmpty(String str) {
+        if (str == null || str.isEmpty()) {
+            return "";
+        }
+        return str;
+    }
+
+    private static boolean isEmptyString(String str) {
+        return str == null || str.length() == 0;
     }
 }
