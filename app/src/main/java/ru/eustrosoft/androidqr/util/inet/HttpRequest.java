@@ -56,6 +56,8 @@ public class HttpRequest {
                         os.write(input, 0, input.length);
                     }
                 }
+                urlConnection.setReadTimeout(1000);
+                urlConnection.setConnectTimeout(300);
                 try (BufferedReader reader = new BufferedReader(
                         new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
                     String responseLine = null;

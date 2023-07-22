@@ -310,7 +310,7 @@ public class NotesFragment extends Fragment {
 
             relativeLayout.setOnLongClickListener(v -> {
                 PopupMenu menu = new PopupMenu(getContext(), v);
-                menu.getMenu().add("Open"); // TODO
+                menu.getMenu().add("Open");
                 menu.getMenu().add("Delete");
                 menu.setOnMenuItemClickListener(item -> {
                     if (item.getTitle().equals("Delete")) {

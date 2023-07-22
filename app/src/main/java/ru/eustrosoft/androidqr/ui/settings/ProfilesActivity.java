@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -32,7 +33,6 @@ import ru.eustrosoft.androidqr.util.ui.ToastHelper;
 import static ru.eustrosoft.androidqr.util.text.TextUtil.getChangedSymbolsText;
 
 public class ProfilesActivity extends AppCompatActivity {
-    private List<Profile> profiles;
     private RecyclerView profilesViewer;
     private ProfileAdapter profileAdapter;
 
@@ -44,8 +44,6 @@ public class ProfilesActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        profiles = new ArrayList<>();
         profilesViewer = findViewById(R.id.profiles_viewer);
         profilesViewer.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         updateUI();
@@ -126,7 +124,7 @@ public class ProfilesActivity extends AppCompatActivity {
             }
         });
         builder.setPositiveButton("Add", (dialog, which) -> {
-            if (name != null && !name.get().isEmpty()) {
+            if (name != null && !name.get().trim().isEmpty()) {
                 Profile profile = new Profile();
                 profile.setName(name.get());
                 profile.setPassword(password.get());
@@ -195,13 +193,16 @@ public class ProfilesActivity extends AppCompatActivity {
         private TextView name;
         private TextView password;
         private boolean passHidden = true;
+        private RelativeLayout layout;
         private int position;
 
         public ProfileHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.profile_name);
             password = itemView.findViewById(R.id.profile_password);
-            this.itemView.setOnClickListener(this.getPasswordHideAction());
+            this.layout = itemView.findViewById(R.id.profile_item);
+            this.layout.setOnClickListener(this.getPasswordHideAction());
+            this.layout.setOnLongClickListener(this.getOnHoldAction());
         }
 
         public void bindProfile(Profile profile, int position) {
@@ -215,15 +216,41 @@ public class ProfilesActivity extends AppCompatActivity {
         }
 
         private View.OnClickListener getPasswordHideAction() {
+            return (v) -> reversePasswordVisibility();
+        }
+
+        private View.OnLongClickListener getOnHoldAction() {
             return (v) -> {
+                PopupMenu menu = new PopupMenu(layout.getContext(), v);
+                menu.getMenu().add(layout.getContext().getString(R.string.popup_delete));
                 if (passHidden) {
-                    this.password.setText(this.profile.getPassword());
-                    this.passHidden = false;
+                    menu.getMenu().add(layout.getContext().getString(R.string.popup_show_password));
                 } else {
-                    this.password.setText(getChangedSymbolsText(this.profile.getPassword(), "*", 12));
-                    this.passHidden = true;
+                    menu.getMenu().add(layout.getContext().getString(R.string.popup_hide_password));
                 }
+                menu.setOnMenuItemClickListener(item -> {
+                    if (item.getTitle().equals(layout.getContext().getString(R.string.popup_delete))) {
+                        ProfileDAO.get(layout.getContext()).deleteProfile(this.profile);
+                        updateUI();
+                    }
+                    if (item.getTitle().equals(layout.getContext().getString(R.string.popup_show_password))) {
+                        reversePasswordVisibility();
+                    }
+                    return true;
+                });
+                menu.show();
+                return true;
             };
+        }
+
+        private void reversePasswordVisibility() {
+            if (passHidden) {
+                this.password.setText(this.profile.getPassword());
+                this.passHidden = false;
+            } else {
+                this.password.setText(getChangedSymbolsText(this.profile.getPassword(), "*", 12));
+                this.passHidden = true;
+            }
         }
     }
 }
